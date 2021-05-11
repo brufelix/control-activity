@@ -1,8 +1,14 @@
-import { Schema, model } from "mongoose";
-
+import { Document, Schema, model } from "mongoose";
 import { IActivity } from "../interface";
 
+export interface IActivityModelInterface extends IActivity, Document { };
+
 const schemaActivity = new Schema({
+  groupId: {
+    type: String,
+    required: true,
+    default: false,
+  },
   description: {
     type: String,
     required: true
@@ -24,6 +30,6 @@ const schemaActivity = new Schema({
   },
 });
 
-const ModelTask = model<IActivity>("activity", schemaActivity)
+const ModelActivity = model<IActivityModelInterface>("activity", schemaActivity)
 
-export default ModelTask;
+export default ModelActivity;
