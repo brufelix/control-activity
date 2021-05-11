@@ -4,6 +4,7 @@
   "description": "Application for controlling activities",
   "main": "dist/index.js",
   "scripts": {
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,5 +23,8 @@
     "express": "^4.17.1",
     "mongoose": "^5.12.8",
     "typescript": "^4.2.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.11"
   }
 }
