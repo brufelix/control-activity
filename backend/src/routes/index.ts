@@ -1,8 +1,9 @@
 import { Express } from "express";
 
-import { create, list } from "../controllers";
+import { create, list, remove } from "../controllers";
 
 export default (app: Express) => {
-  app.get("/api/activities", list);
-  app.post("/api/create", create);
-}
+  app.get("/api", list);
+  app.post("/api", create);
+  app.post("/api/delete", remove);
+};
