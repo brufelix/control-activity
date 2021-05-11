@@ -1,10 +1,19 @@
 import { Express } from "express";
 
-import { create, list, remove, update } from "../controllers";
+import {
+  createAct,
+  listAct,
+  removeAct,
+  updateGro,
+  createGro,
+  listGro,
+} from "../controllers";
 
 export default (app: Express) => {
-  app.get("/api", list);
-  app.post("/api", create);
-  app.post("/api/delete", remove);
-  app.put("/api/update", update);
+  app.post("/api/activity", createAct);
+  app.post("/api/activity/delete", removeAct);
+  app.post("/api/group", createGro);
+  app.get("/api/group", listGro);
+  app.get("/api/activity", listAct);
+  app.post("/api/activity/updateAct", updateGro);
 };

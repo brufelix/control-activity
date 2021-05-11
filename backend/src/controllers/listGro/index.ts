@@ -1,19 +1,20 @@
 import { Response, Request } from "express";
-import ModelActivity from "../../model";
+import { ModelGroup } from "../../model";
 
-export default (req: Request, res: Response) => {
-  ModelActivity.find((err, result) => {
+export default async (req: Request, res: Response) => {
+
+  ModelGroup.find((err, result) => {
     if (err) {
       res.status(404).send();
     };
 
     try {
       res.status(200).send({
-        data: result, 
+        data: result,
       });
     } catch (error) {
-      res.status(404).send({
-        code: 404,
+      res.status(500).send({
+        code: 500,
         message: error
       });
     }

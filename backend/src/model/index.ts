@@ -1,13 +1,13 @@
-import { Document, Schema, model } from "mongoose";
-import { IActivity } from "../interface";
-
-export interface IActivityModelInterface extends IActivity, Document { };
+import { Schema, model } from "mongoose";
+import {
+  IActivity as IActivityModelInterface,
+  IGroup as IGroupModelInterface
+} from "../interface";
 
 const schemaActivity = new Schema({
   groupId: {
     type: String,
     required: true,
-    default: false,
   },
   description: {
     type: String,
@@ -21,15 +21,19 @@ const schemaActivity = new Schema({
   createAt: {
     type: Date,
     required: true,
-    default: false,
   },
   delivery: {
     type: Date,
     required: false,
-    default: false,
   },
 });
 
-const ModelActivity = model<IActivityModelInterface>("activity", schemaActivity)
+const SchemaGroup = new Schema({
+  title: String,
+  activities: [schemaActivity],
+});
 
-export default ModelActivity;
+const ModelActivity = model<IActivityModelInterface>("activity", schemaActivity);
+const ModelGroup = model<IGroupModelInterface>("groupact", SchemaGroup);
+
+export { ModelActivity, ModelGroup };
