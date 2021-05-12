@@ -6,7 +6,10 @@ import { ICard } from "../../interfaces";
 const Card: React.FC<ICard> = (props) => {
   return (
     <CardAntd
-      style={{ width: 300 }}
+      style={{
+        width: "100%",
+        margin: "10px 0",
+      }}
     >
       <p>{props.description}</p>
     </CardAntd>
