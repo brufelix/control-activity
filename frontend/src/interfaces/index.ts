@@ -3,7 +3,9 @@ export interface ICard {
 };
 
 export interface ICardContainer {
+  _id: string
   title: string
-  cards: ICard[]
+  activities: ICard[]
+  fetchData?(): void
   setShowRegister?(): void
 };

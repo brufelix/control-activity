@@ -1,7 +1,8 @@
-import React from 'react';
-import { Row, Col, Typography, Button } from "antd";
+import React, { useState } from 'react';
+import { Row, Col, Typography, Button, Input } from "antd";
 import { PlusCircleFilled } from "@ant-design/icons";
 
+import api from "../../service";
 import Card from "../Card";
 import { ICardContainer } from "../../interfaces";
 import "./index.css";
@@ -9,6 +10,16 @@ import "./index.css";
 const CardContainer: React.FC<ICardContainer> = (props) => {
 
   const { Title } = Typography;
+
+  const [inputVisible, setInputVisible] = useState(Boolean);
+  const [description, setDescription] = useState(String);
+
+  const handleEnterInput = () => {
+    api.post("/group/update", { _id: props._id, newtitle: description })
+      .then(() => props.fetchData && props.fetchData())
+      .then(() => setInputVisible(false))
+      .then(() => setDescription(""));
+  };
 
   return (
     <Row
@@ -26,15 +37,31 @@ const CardContainer: React.FC<ICardContainer> = (props) => {
             padding: "10px",
           }}
         >
-          <Title
-            level={3}
-            style={{
-              color: "white",
-              marginBottom: 0
-            }}
-          >
-            {props.title}
-          </Title>
+          {
+            inputVisible && (
+              <Input
+                placeholder="Digite o título do grupo..."
+                onPressEnter={() => handleEnterInput()}
+                onChange={(event) => setDescription(event.target.value)}
+                value={description}
+                style={{ maxWidth: 250, }}
+              />
+            )
+          }
+          {
+            !inputVisible && (
+              <Title
+                onClick={() => setInputVisible(true)}
+                level={3}
+                style={{
+                  color: "white",
+                  marginBottom: 0
+                }}
+              >
+                {props.title}
+              </Title>
+            )
+          }
         </Row>
         <Row
           align="middle"
@@ -48,7 +75,7 @@ const CardContainer: React.FC<ICardContainer> = (props) => {
             span={20}
           >
             {
-              props.cards.map((card, index) => (
+              props.activities.map((card, index) => (
                 <Card
                   key={index}
                   description={card.description}

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Modal, Input, Button } from "antd";
 import { PlusCircleFilled } from "@ant-design/icons";
 
+import api from "../../service";
 import { ICardContainer } from "../../interfaces";
 import CardContainer from "../../components/CardContainer";
 
@@ -13,17 +14,30 @@ const Home: React.FC = () => {
   const [inputVisible, setInputVisible] = useState(Boolean);
   const [description, setDescription] = useState(String);
   const [modalDescription, setModalDescription] = useState(String);
-  const [data, setData] = useState<[ICardContainer]>();
+  const [data, setData] = useState<[ICardContainer]>([{} as ICardContainer]);
 
   const registerActivity = () => {
     console.log(modalDescription);
   };
 
   const handleEnterInput = () => {
-    setData([{ title: description, cards: [] }])
-    setInputVisible(false);
-    setDescription("");
+    api.post("/group", { title: description })
+      .then(() => fetchData())
+      .then(() => setInputVisible(false))
+      .then(() => setDescription(""));
   };
+
+  const fetchData = () => {
+    api.get("/group")
+      .then(({ data = [] }) => {
+        console.log(data);
+        setData(data.data)
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [])
 
   return (
     <>
@@ -74,9 +88,11 @@ const Home: React.FC = () => {
             data.map((item, index) => (
               <div key={index} >
                 <CardContainer
+                  _id={item._id}
                   title={item.title}
-                  cards={item.cards || []}
+                  activities={item.activities || []}
                   setShowRegister={() => setShowRegister(true)}
+                  fetchData={() => fetchData()}
                 />
               </div>
             ))
