@@ -5,5 +5,5 @@ export interface ICard {
 export interface ICardContainer {
   title: string
   cards: ICard[]
-  setShowRegister(): void
+  setShowRegister?(): void
 };

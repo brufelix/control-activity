@@ -22,13 +22,15 @@ const CardContainer: React.FC<ICardContainer> = (props) => {
           justify="center"
           align="middle"
           style={{
-            backgroundColor: "blue"
+            backgroundColor: "blue",
+            padding: "10px",
           }}
         >
           <Title
             level={3}
             style={{
               color: "white",
+              marginBottom: 0
             }}
           >
             {props.title}
@@ -55,7 +57,7 @@ const CardContainer: React.FC<ICardContainer> = (props) => {
             }
           </Col>
           <Button
-            onClick={() => props.setShowRegister()}
+            onClick={() => props.setShowRegister && props.setShowRegister()}
             icon={<PlusCircleFilled />}
             style={{
               marginBottom: "10px",
