@@ -6,6 +6,7 @@ import {
   updateGro,
   createGro,
   listGro,
+  doneAct
 } from "../controllers";
 
 export default (app: Express) => {
@@ -14,4 +15,5 @@ export default (app: Express) => {
   app.post("/api/group", createGro);
   app.get("/api/group", listGro);
   app.post("/api/activity/updateAct", updateGro);
+  app.post("/api/activity/done", doneAct);
 };
