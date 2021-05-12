@@ -25,6 +25,7 @@ const schemaActivity = new Schema({
   delivery: {
     type: Date,
     required: false,
+    defaultValue: null
   },
 });
 
