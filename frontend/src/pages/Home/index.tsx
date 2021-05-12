@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Modal, Input, Button } from "antd";
+import { Row, Input, Button } from "antd";
 import { PlusCircleFilled } from "@ant-design/icons";
 
 import api from "../../service";
@@ -8,17 +8,9 @@ import CardContainer from "../../components/CardContainer";
 
 const Home: React.FC = () => {
 
-  const { TextArea } = Input;
-
-  const [showRegister, setShowRegister] = useState(Boolean);
   const [inputVisible, setInputVisible] = useState(Boolean);
   const [description, setDescription] = useState(String);
-  const [modalDescription, setModalDescription] = useState(String);
   const [data, setData] = useState<[ICardContainer]>([{} as ICardContainer]);
-
-  const registerActivity = () => {
-    console.log(modalDescription);
-  };
 
   const handleEnterInput = () => {
     api.post("/group", { title: description })
@@ -29,10 +21,8 @@ const Home: React.FC = () => {
 
   const fetchData = () => {
     api.get("/group")
-      .then(({ data = [] }) => {
-        console.log(data);
-        setData(data.data)
-      });
+      .then(({ data = [] }) => setData(data.data)
+      );
   };
 
   useEffect(() => {
@@ -41,39 +31,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-      {
-        showRegister &&
-        (
-          <Modal
-            title={"Cadastro de Atividade"}
-            visible={showRegister}
-            onCancel={() => setShowRegister(false)}
-            footer={[
-              <Button
-                key={0}
-                type="default"
-                onClick={() => setShowRegister(false)}
-              >
-                Cancelar
-              </Button>,
-              <Button
-                key={1}
-                onClick={() => registerActivity()}
-                type="primary"
-              >
-                Cadastrar
-              </Button>
-            ]}
-            width={400}
-          >
-            <TextArea
-              onChange={(e) => setModalDescription(e.target.value)}
-              placeholder="Digite a descrição da atividade..."
-              rows={2}
-            />
-          </Modal>
-        )
-      }
       <Row
         gutter={[0, 8]}
         align="top"
@@ -91,7 +48,6 @@ const Home: React.FC = () => {
                   _id={item._id}
                   title={item.title}
                   activities={item.activities || []}
-                  setShowRegister={() => setShowRegister(true)}
                   fetchData={() => fetchData()}
                 />
               </div>
