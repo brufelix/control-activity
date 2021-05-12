@@ -124,7 +124,10 @@ const CardContainer: React.FC<ICardContainer> = (props) => {
               {
                 props.activities.map((card, index) => (
                   <Card
+                    _id={card._id}
+                    groupId={props._id}
                     key={index}
+                    fetchData={() => props.fetchData && props.fetchData()}
                     description={card.description}
                   />
                 ))
