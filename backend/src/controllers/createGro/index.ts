@@ -1,23 +1,52 @@
 import { Response, Request } from "express";
-import { ModelGroup } from "../../model";
+import { ModelGroup, ModelActivity } from "../../model";
 
-export default (req: Request, res: Response) => {
+export default async (req: Request, res: Response) => {
   try {
+    let now = new Date();
+
     const newGroup = new ModelGroup({
       title: req.body.title,
       activities: [],
     });
 
-    newGroup.save();
+    await newGroup.save();
+
+    const newActivity = new ModelActivity({
+      groupId: newGroup._id,
+      done: false,
+      description: "Clique para editar..",
+      createAt: now,
+      delelivery: null,
+    });
+
+    await newActivity.save();
+
+    await newGroup.updateOne(
+      { $push: { activities: newActivity, } },
+      null,
+      (err, _) => {
+        if (err) {
+          res.status(500).send({
+            error: err
+          });
+        };
+      }
+    );
+
+    try {
+      res.status(200).json({
+        code: 200,
+        message: `Group created`
+      });
+    } catch (error) {
+      throw new Error(error)
+    };
+
   } catch (error) {
     res.status(404).json({
       code: 404,
       message: error
     });
   }
-
-  res.status(200).json({
-    code: 200,
-    message: `group created`
-  });
 };

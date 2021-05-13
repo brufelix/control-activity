@@ -5,10 +5,35 @@ export interface ICard {
   fetchData?(): void;
 };
 
-export interface ICardContainer {
+export interface ICreateGroup {
+  fetchData?(): void
+}
+
+export interface IRegisterActivity {
+  _id: string;
+  fetchData?(): void;
+};
+
+export interface IActivity {
+  _id: string;
+  groupId: string
+  description: string;
+  done: boolean;
+  createAt: Date;
+  delivery: Date;
+};
+
+export interface IGroup {
   _id: string;
   title: string;
-  activities: ICard[];
-  fetchData?(): void;
-  setShowRegister?(): void;
+  activities: IActivity[]
+}
+
+export interface IResponseGroup {
+  data: IGroup[]
+}
+
+export interface ITitle {
+  id: string
+  fetchData?(): void
 };
