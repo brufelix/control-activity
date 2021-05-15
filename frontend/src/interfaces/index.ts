@@ -9,7 +9,7 @@ export interface ICard {
 
 export interface ICreateGroup {
   fetchData?(): void
-}
+};
 
 export interface IRegisterActivity {
   _id: string;
@@ -29,13 +29,21 @@ export interface IGroup {
   _id: string;
   title: string;
   activities: IActivity[]
-}
+};
 
 export interface IResponseGroup {
   data: IGroup[]
-}
+};
 
 export interface ITitle {
   id: string
   fetchData?(): void
+};
+
+export interface IHome {
+  setCount?(number: number): void;
+};
+
+export interface IDrogAndDrop {
+  setCount?(number: number): void;
 };

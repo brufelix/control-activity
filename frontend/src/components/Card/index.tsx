@@ -4,6 +4,7 @@ import {
 } from "antd";
 import moment from "moment";
 
+import { compareDate } from "../../utils";
 import api from "../../service";
 import { ICard } from "../../interfaces";
 import "./index.css";
@@ -58,12 +59,6 @@ const Card: React.FC<ICard> = (props) => {
       activityId: props._id
     })
       .then(() => props.fetchData && props.fetchData());
-  };
-
-  const compareDate = (date: string = "") => {
-    const now = moment();
-
-    return now > moment(date);
   };
 
   return (
