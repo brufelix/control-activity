@@ -172,6 +172,7 @@ function App() {
                                       display: "flex",
                                       justifyContent: "center",
                                       cursor: "pointer",
+                                      height: "auto"
                                     }}
                                   >
                                     <Card

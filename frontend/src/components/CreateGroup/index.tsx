@@ -32,7 +32,7 @@ const CreateGroup: React.FC<ICreateGroup> = (props) => {
       {
         inputVisible && (
           <Input
-            placeholder="Título do grupo..."
+            placeholder="Título do novo grupo..."
             onPressEnter={() => handleEnterInput()}
             onChange={(event) => setDescription(event.target.value)}
             value={description}

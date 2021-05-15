@@ -52,7 +52,7 @@ const RegisterActivity: React.FC<IRegisterActivity> = (props) => {
                 onClick={() => registerActivity()}
                 type="primary"
               >
-                Cadastrar
+                Salvar
             </Button>
             ]}
             width={400}
