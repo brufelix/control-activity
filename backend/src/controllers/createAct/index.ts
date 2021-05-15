@@ -3,15 +3,15 @@ import { ModelActivity, ModelGroup } from "../../model";
 
 export default (req: Request, res: Response) => {
   let now = new Date();
-  const { groupId, description, delivery } = req.body;
+  const { groupId, description, delivery, createAt } = req.body;
 
   try {
     const newActivity = new ModelActivity({
       groupId: groupId,
       done: false,
       description: description,
-      createAt: now,
-      delivery: delivery
+      createAt: createAt,
+      delivery: delivery,
     });
 
     newActivity.save();
