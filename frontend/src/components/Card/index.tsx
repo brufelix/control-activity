@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import {
   Input, Modal, Button, Row, Col, Popover, DatePicker, Checkbox
 } from "antd";
+import moment from "moment";
 
 import api from "../../service";
 import { ICard } from "../../interfaces";
+import "./index.css";
 
 const Card: React.FC<ICard> = (props) => {
 
@@ -23,6 +25,44 @@ const Card: React.FC<ICard> = (props) => {
       .then(() => setDescription(""))
       .then(() => props.fetchData && props.fetchData())
       .then(() => setShowModal(false));
+  };
+
+  const formatDate = (date: string) => {
+    const [year, mon, day] = date.slice(0, 10).split("-")
+    moment.updateLocale('pt', {
+      months: [
+        "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul",
+        "Ago", "Set", "Out", "Nov", "Dez"
+      ]
+    });
+
+    return moment([year, mon, day]).format('DD [de] MMMM/YYYY');
+  };
+
+  const addDeliveryData = (date: string) => {
+    api.post(`/activity/delivery`, {
+      _id: props.groupId,
+      activityId: props._id,
+      date
+    })
+      .then(() => props.fetchData && props.fetchData());
+  };
+
+  const markAsDone = (isChecked: boolean) => {
+    const done = isChecked ? true : false;
+
+    api.post(`/activity/done`, {
+      done,
+      _id: props.groupId,
+      activityId: props._id
+    })
+      .then(() => props.fetchData && props.fetchData());
+  };
+
+  const compareDate = (date: string = "") => {
+    const now = moment();
+
+    return now > moment(date);
   };
 
   return (
@@ -77,6 +117,14 @@ const Card: React.FC<ICard> = (props) => {
                 content={
                   <DatePicker
                     format="DD/MM/YYYY"
+                    onSelect={(e) => {
+                      addDeliveryData(
+                        e.startOf('day')
+                          .format("YYYY-MM-DDTHH:mm:ss-03:00")
+                      );
+                      setVisible(false);
+                    }
+                    }
                   />
                 }
                 trigger="click"
@@ -118,9 +166,27 @@ const Card: React.FC<ICard> = (props) => {
             justify="start"
             align="middle"
           >
-            <Checkbox>
-              06 mai 21
-            </Checkbox>
+            {
+              props.delivery !== undefined && (
+                <span
+                  className="container-checkbox"
+                  style={{
+                    background: props.done
+                      ? "rgb(116, 228, 116)"
+                      : compareDate(props.delivery.slice(0, 10))
+                        ? "rgb(255, 56, 56)"
+                        : "white"
+                  }}
+                >
+                  <Checkbox
+                    onChange={(e) => markAsDone(e.target.checked)}
+                    checked={props.done}
+                  >
+                    {formatDate(props.delivery)}
+                  </Checkbox>
+                </span>
+              )
+            }
           </Row>
         </Col>
       </Row>

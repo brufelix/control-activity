@@ -2,6 +2,8 @@ export interface ICard {
   _id: string;
   groupId: string;
   description: string;
+  done?: boolean;
+  delivery?: string;
   fetchData?(): void;
 };
 
@@ -19,8 +21,8 @@ export interface IActivity {
   groupId: string
   description: string;
   done: boolean;
-  createAt: Date;
-  delivery: Date;
+  createAt: string;
+  delivery: string;
 };
 
 export interface IGroup {

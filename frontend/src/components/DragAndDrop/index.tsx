@@ -179,6 +179,8 @@ function App() {
                                       _id={item._id}
                                       description={item.description}
                                       groupId={item.groupId}
+                                      done={item.done}
+                                      delivery={item.delivery}
                                       fetchData={() => fetchData()}
                                     />
                                   </div>
