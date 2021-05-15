@@ -29,6 +29,7 @@ const Card: React.FC<ICard> = (props) => {
 
   const formatDate = (date: string) => {
     const [year, mon, day] = date.slice(0, 10).split("-")
+    moment.locale('pt');
     moment.updateLocale('pt', {
       months: [
         "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul",
@@ -36,7 +37,7 @@ const Card: React.FC<ICard> = (props) => {
       ]
     });
 
-    return moment([year, mon, day]).format('DD [de] MMMM/YYYY');
+    return moment([year, `${+mon - 1}`, day]).format('DD [de] MMMM/YYYY');
   };
 
   const addDeliveryData = (date: string) => {
