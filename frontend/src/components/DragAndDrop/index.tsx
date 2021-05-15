@@ -16,6 +16,21 @@ import Card from "../Card";
 import Title from "../Title";
 import api from "../../service";
 
+const moveActivity = (act: IActivity, targetGroup: string) => {
+  api.post("/activity", {
+    groupId: targetGroup,
+    description: act.description,
+    done: act.done,
+    createAt: act.createAt,
+    delivery: act.delivery
+  });
+
+  api.post("/activity/delete", {
+    _id: act._id,
+    groupId: act.groupId,
+  });
+};
+
 const reorder = (list: any, startIndex: number, endIndex: number) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -33,9 +48,12 @@ const move = (
   droppableSource: DraggableLocation,
   droppableDestination: DraggableLocation
 ) => {
-  const sourceClone = Array.from(source);
-  const destClone = Array.from(destination);
+  const sourceClone = Array.from<IActivity>(source);
+  const destClone = Array.from<IActivity>(destination);
   const [removed] = sourceClone.splice(droppableSource.index, 1);
+  const { groupId } = destClone[0];
+
+  moveActivity(removed, groupId);
 
   destClone.splice(droppableDestination.index, 0, removed);
 
