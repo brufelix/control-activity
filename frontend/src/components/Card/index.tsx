@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { Input, Modal, Button, Row } from "antd";
+import {
+  Input, Modal, Button, Row, Col, Popover, DatePicker, Checkbox
+} from "antd";
 
 import api from "../../service";
 import { ICard } from "../../interfaces";
 
 const Card: React.FC<ICard> = (props) => {
 
+  const { TextArea } = Input;
+
   const [showModal, setShowModal] = useState(Boolean);
+  const [visible, setVisible] = useState(Boolean);
   const [description, setDescription] = useState(String);
 
   const handleEnterInputCard = () => {
@@ -33,7 +38,11 @@ const Card: React.FC<ICard> = (props) => {
               <Button
                 key={0}
                 type="default"
-                onClick={() => { setShowModal(false); setDescription(""); }}
+                onClick={() => {
+                  setShowModal(false);
+                  setDescription("");
+                  setVisible(false);
+                }}
               >
                 Cancelar
               </Button>,
@@ -47,23 +56,73 @@ const Card: React.FC<ICard> = (props) => {
             ]}
             width={400}
           >
-            <Input
-              placeholder="Descrição da atividade..."
-              onPressEnter={() => handleEnterInputCard()}
-              onChange={(event) => setDescription(event.target.value)}
-              value={description}
-              style={{ maxWidth: "100%", }}
-            />
+            <Row>
+              <TextArea
+                placeholder="Descrição da atividade..."
+                onPressEnter={() => handleEnterInputCard()}
+                onChange={(event) => setDescription(event.target.value)}
+                value={description}
+                style={{
+                  maxWidth: "100%",
+                  marginBottom: "10px"
+                }}
+                rows={2}
+              />
+            </Row>
+            <Row
+              justify="start"
+              align="middle"
+            >
+              <Popover
+                content={
+                  <DatePicker
+                    format="DD/MM/YYYY"
+                  />
+                }
+                trigger="click"
+                visible={visible}
+              >
+                <Button
+                  type="primary"
+                  onClick={() => setVisible(!visible)}
+                >
+                  Data de Entrega
+                </Button>
+              </Popover>
+            </Row>
           </Modal>
         )
       }
       <Row
-        onClick={() => setShowModal(true)}
+        justify="start"
+        gutter={[0, 8]}
         style={{ width: "100%", }}
-        justify="center"
-        align="middle"
       >
-        {props.description}
+        <Col
+          span={24}
+        >
+          <Row
+            onClick={() => setShowModal(true)}
+            style={{ width: "100%", }}
+            justify="start"
+            align="middle"
+          >
+            {props.description}
+          </Row>
+        </Col>
+        <Col
+          span={24}
+        >
+          <Row
+            style={{ width: "100%", }}
+            justify="start"
+            align="middle"
+          >
+            <Checkbox>
+              06 mai 21
+            </Checkbox>
+          </Row>
+        </Col>
       </Row>
     </>
   );
