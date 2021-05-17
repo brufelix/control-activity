@@ -47,3 +47,7 @@ export interface IHome {
 export interface IDrogAndDrop {
   setCount?(number: number): void;
 };
+
+export interface IHeader {
+  count: number;
+};

@@ -1,65 +1,34 @@
 import React, { useState } from 'react';
-import { Layout, Input, Badge, Row, ConfigProvider } from 'antd';
-import { NotificationOutlined } from "@ant-design/icons";
+import { Layout, ConfigProvider } from 'antd';
 import locale from 'antd/lib/locale/pt_BR';
 import 'moment/locale/pt-br';
 
+import Header from "./components/Header";
 import Home from "./pages/Home";
+import Footer from "./components/Footer";
 import './App.css';
 
 function App() {
 
-  const { Search } = Input;
-  const { Header, Footer, Content } = Layout;
+  const { Content } = Layout;
   const [count, setCount] = useState(0);
 
   return (
-    <ConfigProvider locale={locale} >
+    <ConfigProvider
+      locale={locale}
+    >
       <Layout>
         <Header
-          style={{
-            background: "#00003a",
-            borderTop: "4px solid #005194"
-          }}
-        >
-          <Row
-            justify="space-between"
-            align="middle"
-            style={{
-              height: "100%",
-            }}
-          >
-            <Search
-              style={{ maxWidth: "300px", }}
-            />
-            <Row
-              style={{ height: "100%", }}
-              justify="center"
-              align="middle"
-            >
-              <NotificationOutlined
-                style={{
-                  color: "white",
-                  fontSize: "16px",
-                  marginRight: "10px",
-                }}
-              />
-              <Badge
-                count={count}
-              />
-            </Row>
-          </Row>
-        </Header>
+          count={count}
+        />
         <Content
           style={{ overflow: "auto" }}
         >
-          <Home 
+          <Home
             setCount={(number: number) => setCount(number)}
           />
         </Content>
-        <Footer>
-          Footer
-      </Footer>
+        <Footer />
       </Layout>
     </ConfigProvider>
   );
