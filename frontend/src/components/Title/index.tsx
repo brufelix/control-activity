@@ -6,6 +6,7 @@ import api from "../../service";
 
 const Title: React.FC<ITitle> = (props) => {
 
+  const { id: _id, fetchData } = props;
   const { Title } = Typography;
 
   const [inputVisible, setInputVisible] = useState(Boolean);
@@ -13,15 +14,15 @@ const Title: React.FC<ITitle> = (props) => {
   const [title, setTitle] = useState("");
 
   const handleEnterInput = () => {
-    api.post("/group/update", { _id: props.id, newtitle: description })
-      .then(() => props.fetchData && props.fetchData())
+    api.post("/group/update", { _id, newtitle: description })
+      .then(() => fetchData && fetchData())
       .then(() => setInputVisible(false))
       .then(() => setDescription(""))
       .then(() => getTitle());
   };
 
   const getTitle = async () => {
-    await api.post("/groupname", { _id: props.id })
+    await api.post("/groupname", { _id })
       .then(res => setTitle(res.data));
   }
 
@@ -29,7 +30,7 @@ const Title: React.FC<ITitle> = (props) => {
     if (!title.trim())
       getTitle();
     // eslint-disable-next-line
-  }, [props.id]);
+  }, [_id]);
 
   return (
     <Row

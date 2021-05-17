@@ -11,6 +11,7 @@ import "./index.css";
 
 const Card: React.FC<ICard> = (props) => {
 
+  const { description: desc, mainId, groupId, delivery, done, fetchData } = props;
   const { TextArea } = Input;
 
   const [showModal, setShowModal] = useState(Boolean);
@@ -19,12 +20,12 @@ const Card: React.FC<ICard> = (props) => {
 
   const handleEnterInputCard = () => {
     api.post("/activity/updateAct", {
-      _id: props.groupId,
-      activityId: props._id,
+      mainId,
+      _id: groupId,
       data: description
     })
       .then(() => setDescription(""))
-      .then(() => props.fetchData && props.fetchData())
+      .then(() => fetchData && fetchData())
       .then(() => setShowModal(false));
   };
 
@@ -43,22 +44,22 @@ const Card: React.FC<ICard> = (props) => {
 
   const addDeliveryData = (date: string) => {
     api.post(`/activity/delivery`, {
-      _id: props.groupId,
-      activityId: props._id,
-      date
+      mainId,
+      _id: groupId,
+      date,
     })
-      .then(() => props.fetchData && props.fetchData());
+      .then(() => fetchData && fetchData());
   };
 
   const markAsDone = (isChecked: boolean) => {
     const done = isChecked ? true : false;
 
     api.post(`/activity/done`, {
+      mainId,
+      _id: groupId,
       done,
-      _id: props.groupId,
-      activityId: props._id
     })
-      .then(() => props.fetchData && props.fetchData());
+      .then(() => fetchData && fetchData());
   };
 
   return (
@@ -80,7 +81,7 @@ const Card: React.FC<ICard> = (props) => {
                   setVisible(false);
                 }}
               >
-                Cancelar
+                Fechar
               </Button>,
               <Button
                 key={1}
@@ -151,7 +152,7 @@ const Card: React.FC<ICard> = (props) => {
             justify="start"
             align="middle"
           >
-            {props.description}
+            {desc}
           </Row>
         </Col>
         <Col
@@ -163,22 +164,22 @@ const Card: React.FC<ICard> = (props) => {
             align="middle"
           >
             {
-              props.delivery !== undefined && (
+              delivery !== undefined && (
                 <span
                   className="container-checkbox"
                   style={{
-                    background: props.done
+                    background: done
                       ? "rgb(116, 228, 116)"
-                      : compareDate(props.delivery.slice(0, 10))
+                      : compareDate(delivery.slice(0, 10))
                         ? "rgb(255, 56, 56)"
                         : "white"
                   }}
                 >
                   <Checkbox
                     onChange={(e) => markAsDone(e.target.checked)}
-                    checked={props.done}
+                    checked={done}
                   >
-                    {formatDate(props.delivery)}
+                    {formatDate(delivery)}
                   </Checkbox>
                 </span>
               )

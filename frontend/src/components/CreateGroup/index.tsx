@@ -7,14 +7,16 @@ import api from "../../service";
 
 const CreateGroup: React.FC<ICreateGroup> = (props) => {
 
+  const { fetchData } = props;
+
   const [inputVisible, setInputVisible] = useState(Boolean);
   const [description, setDescription] = useState(String);
 
   const handleEnterInput = () => {
     api.post("/group", { title: description })
-      .then(() => props.fetchData && props.fetchData())
       .then(() => setInputVisible(false))
-      .then(() => setDescription(""));
+      .then(() => setDescription(""))
+      .then(() => fetchData && fetchData());
   };
 
   return (
@@ -38,7 +40,7 @@ const CreateGroup: React.FC<ICreateGroup> = (props) => {
             value={description}
             style={{
               maxWidth: 250,
-              maxHeight: "30px"
+              maxHeight: "30px",
             }}
           />
         )

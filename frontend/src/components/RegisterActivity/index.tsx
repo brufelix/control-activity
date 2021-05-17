@@ -8,42 +8,43 @@ import "./index.css";
 
 const RegisterActivity: React.FC<IRegisterActivity> = (props) => {
 
+  const { _id, fetchData } = props;
   const { TextArea } = Input;
 
-  const [showRegister, setShowRegister] = useState(Boolean);
-  const [modalDescription, setModalDescription] = useState(String);
+  const [visible, setVisible] = useState(Boolean);
+  const [description, setDescription] = useState(String);
   const [groupId, setGroupId] = useState(String);
 
   const registerActivity = () => {
     api.post("/activity", {
-      groupId: groupId,
-      description: modalDescription
+      groupId,
+      description
     })
-      .then(() => setShowRegister(false))
-      .then(() => setModalDescription(""))
-      .then(() => props.fetchData && props.fetchData());
+      .then(() => setVisible(false))
+      .then(() => setDescription(""))
+      .then(() => fetchData && fetchData());
   };
 
   useEffect(() => {
     if (!groupId.trim())
-      setGroupId(props._id);
+      setGroupId(_id);
     // eslint-disable-next-line
   }, []);
 
   return (
     <>
       {
-        showRegister &&
+        visible &&
         (
           <Modal
             title={"Cadastro de Atividade"}
-            visible={showRegister}
-            onCancel={() => setShowRegister(false)}
+            visible={visible}
+            onCancel={() => setVisible(false)}
             footer={[
               <Button
                 key={0}
                 type="default"
-                onClick={() => setShowRegister(false)}
+                onClick={() => setVisible(false)}
               >
                 Cancelar
             </Button>,
@@ -58,7 +59,7 @@ const RegisterActivity: React.FC<IRegisterActivity> = (props) => {
             width={400}
           >
             <TextArea
-              onChange={(e) => setModalDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="Digite a descrição da atividade..."
               rows={2}
             />
@@ -66,7 +67,7 @@ const RegisterActivity: React.FC<IRegisterActivity> = (props) => {
         )
       }
       <Button
-        onClick={() => setShowRegister(true)}
+        onClick={() => setVisible(true)}
         icon={<PlusCircleFilled />}
         style={{
           marginBottom: "10px",

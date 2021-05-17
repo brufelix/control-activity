@@ -37,11 +37,12 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
       description: act.description,
       done: act.done,
       createAt: act.createAt,
-      delivery: act.delivery
+      delivery: act.delivery,
+      mainId: act.mainId,
     });
 
     api.post("/activity/delete", {
-      _id: act._id,
+      mainId: act.mainId,
       groupId: act.groupId,
     });
   };
@@ -66,6 +67,8 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
     const { groupId } = destClone[0];
 
     moveActivity(removed, groupId);
+
+    removed["groupId"] = groupId;
 
     destClone.splice(droppableDestination.index, 0, removed);
 
@@ -165,7 +168,11 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
             >
               <Col>
                 <Title
-                  id={el[0].groupId}
+                  id={
+                    el[0].groupId
+                      ? el[0].groupId
+                      : ""
+                  }
                   fetchData={() => fetchData()}
                 />
                 <Row
@@ -180,8 +187,8 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
                       >
                         {el.map((item, index) => (
                           <Draggable
-                            key={item._id}
-                            draggableId={item._id}
+                            key={item.mainId}
+                            draggableId={item.mainId}
                             index={index}
                           >
                             {(provided, snapshot) => (
@@ -203,7 +210,7 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
                                   }}
                                 >
                                   <Card
-                                    _id={item._id}
+                                    mainId={item.mainId}
                                     description={item.description}
                                     groupId={item.groupId}
                                     done={item.done}
@@ -221,7 +228,11 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
                   </Droppable>
                 </Row>
                 <RegisterActivity
-                  _id={el[0].groupId}
+                  _id={
+                    el[0].groupId
+                      ? el[0].groupId
+                      : ""
+                  }
                   fetchData={() => fetchData()}
                 />
               </Col>

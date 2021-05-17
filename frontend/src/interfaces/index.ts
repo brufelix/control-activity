@@ -1,5 +1,5 @@
 export interface ICard {
-  _id: string;
+  mainId: string;
   groupId: string;
   description: string;
   done?: boolean;
@@ -7,17 +7,8 @@ export interface ICard {
   fetchData?(): void;
 };
 
-export interface ICreateGroup {
-  fetchData?(): void
-};
-
-export interface IRegisterActivity {
-  _id: string;
-  fetchData?(): void;
-};
-
 export interface IActivity {
-  _id: string;
+  mainId: string;
   groupId: string
   description: string;
   done: boolean;
@@ -33,6 +24,15 @@ export interface IGroup {
 
 export interface IResponseGroup {
   data: IGroup[]
+};
+
+export interface ICreateGroup {
+  fetchData?(): void
+};
+
+export interface IRegisterActivity {
+  _id: string;
+  fetchData?(): void;
 };
 
 export interface ITitle {
