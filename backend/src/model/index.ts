@@ -9,6 +9,10 @@ const schemaActivity = new Schema({
     type: String,
     required: true,
   },
+  mainId: {
+    type: String,
+    required: true
+  },
   description: {
     type: String,
     required: true

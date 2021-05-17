@@ -2,12 +2,12 @@ import { Response, Request } from "express";
 import { ModelGroup } from "../../model";
 
 export default (req: Request, res: Response) => {
-  const { _id, activityId, done } = req.body;
+  const { _id, mainId, done } = req.body;
   try {
     ModelGroup.updateOne(
       {
         _id,
-        "activities._id": activityId,
+        "activities.mainId": mainId,
       },
       { $set: { "activities.$.done": done } },
       null,

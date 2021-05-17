@@ -2,11 +2,11 @@ import { Response, Request } from "express";
 import { ModelGroup } from "../../model";
 
 export default (req: Request, res: Response) => {
-  const { _id, groupId } = req.body;
+  const { mainId, groupId } = req.body;
   try {
     ModelGroup.updateOne(
       { _id: groupId },
-      { $pull: { activities: { _id } } },
+      { $pull: { activities: { mainId } } },
       null,
       (err, _) => {
         if (err) {

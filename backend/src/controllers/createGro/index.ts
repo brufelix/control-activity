@@ -1,9 +1,12 @@
 import { Response, Request } from "express";
+import crypto from "crypto";
+
 import { ModelGroup, ModelActivity } from "../../model";
 
 export default async (req: Request, res: Response) => {
   try {
     let now = new Date();
+    const mainId = crypto.randomBytes(16).toString("hex");
 
     const newGroup = new ModelGroup({
       title: req.body.title,
@@ -13,6 +16,7 @@ export default async (req: Request, res: Response) => {
     await newGroup.save();
 
     const newActivity = new ModelActivity({
+      mainId,
       groupId: newGroup._id,
       done: false,
       description: "Clique para editar..",

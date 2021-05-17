@@ -1,16 +1,22 @@
+import crypto from "crypto";
 import { Response, Request } from "express";
+
 import { ModelActivity, ModelGroup } from "../../model";
 
 export default (req: Request, res: Response) => {
   let now = new Date();
-  const { groupId, description, delivery, createAt } = req.body;
+  const { groupId, description, delivery, createAt, mainId } = req.body;
+  const newId = crypto.randomBytes(16).toString("hex");
+  const id = mainId ? mainId : newId;
+  const date = createAt ? createAt : now;
 
   try {
     const newActivity = new ModelActivity({
+      mainId: id,
       groupId: groupId,
       done: false,
       description: description,
-      createAt: createAt,
+      createAt: date,
       delivery: delivery,
     });
 
