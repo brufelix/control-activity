@@ -5,12 +5,14 @@ import { ModelGroup, ModelActivity } from "../../model";
 
 export default async (req: Request, res: Response) => {
   try {
-    let now = new Date();
+    const { title, groupPosition } = req.body;
+    const now = new Date();
     const mainId = crypto.randomBytes(16).toString("hex");
 
     const newGroup = new ModelGroup({
-      title: req.body.title,
+      title,
       activities: [],
+      position: groupPosition,
     });
 
     await newGroup.save();
@@ -22,6 +24,7 @@ export default async (req: Request, res: Response) => {
       description: "Clique para editar..",
       createAt: now,
       delelivery: null,
+      position: 0,
     });
 
     await newActivity.save();

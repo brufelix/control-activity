@@ -8,3 +8,4 @@ export { default as updateGro } from "./updateGro";
 export { default as deliveryAct } from "./deliveryAct";
 export { default as nameGroup } from "./nameGroup";
 export { default as searchAct } from "./searchAct";
+export { default as updatePositionAct } from "./updatePositionAct";

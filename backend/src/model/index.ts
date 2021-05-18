@@ -31,11 +31,19 @@ const schemaActivity = new Schema({
     required: false,
     defaultValue: null
   },
+  position: {
+    type: Number,
+    required: false,
+  }
 });
 
 const SchemaGroup = new Schema({
   title: String,
   activities: [schemaActivity],
+  position: {
+    type: String,
+    required: false,
+  }
 });
 
 const ModelActivity = model<IActivityModelInterface>("activity", schemaActivity);
