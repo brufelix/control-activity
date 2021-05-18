@@ -10,7 +10,7 @@ import {
 } from "react-beautiful-dnd";
 
 import { compareDate } from "../../utils";
-import { IActivity, IResponseGroup, IDrogAndDrop } from "../../interfaces";
+import { IActivity, IGroup, IDrogAndDrop } from "../../interfaces";
 import CreateGroup from "../CreateGroup";
 import RegisterActivity from "../RegisterActivity";
 import Card from "../Card";
@@ -33,7 +33,39 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
     });
   };
 
-  const moveActivity = (act: IActivity, targetGroup: string) => {
+  const updateItemPositionForward = async (items: IActivity[], referenceIndex: number) => {
+    let index = referenceIndex;
+
+    await Promise.all(
+      items.map(async item => {
+        await api.post(`/activity/updateposition`, {
+          _id: item.groupId,
+          mainId: item.mainId,
+          newPosition: ++index,
+        });
+      })
+    );
+  };
+
+  const updatePositionItemsBack = async (items: IActivity[], referenceIndex: number) => {
+    let index = referenceIndex;
+
+    await Promise.all(
+      items.map(async item => {
+        await api.post(`/activity/updateposition`, {
+          _id: item.groupId,
+          mainId: item.mainId,
+          newPosition: --index,
+        });
+      })
+    );
+  };
+
+  const moveActivity = (
+    act: IActivity,
+    targetGroup: string,
+    position: number,
+  ) => {
     api.post("/activity", {
       groupId: targetGroup,
       description: act.description,
@@ -41,6 +73,7 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
       createAt: act.createAt,
       delivery: act.delivery,
       mainId: act.mainId,
+      position,
     });
 
     api.post("/activity/delete", {
@@ -68,7 +101,9 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
     const [removed] = sourceClone.splice(droppableSource.index, 1);
     const { groupId } = destClone[0];
 
-    moveActivity(removed, groupId);
+    moveActivity(removed, groupId, droppableDestination.index);
+    updateItemPositionForward(destClone.slice(droppableDestination.index), droppableDestination.index);
+    updatePositionItemsBack(sourceClone.slice(droppableSource.index), droppableSource.index);
 
     removed["groupId"] = groupId;
 
@@ -140,17 +175,29 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
   };
 
   const fetchData = async () => {
-    await api.get<IResponseGroup>("/group")
+    await api.get<IGroup[]>("/group")
       .then((res) => {
         const { data } = res;
-        setState(data.data.map(item => item.activities));
+        setState(
+          data
+            .sort((a, b) => a.position - b.position)
+            .map(group => group.activities
+              .sort((a, b) => a.position - b.position)
+            )
+        );
       });
   };
 
   useEffect(() => {
     if (state && resultSearch) {
       if (resultSearch.length) {
-        setState(resultSearch.map(item => item.activities));
+        setState(
+          resultSearch
+            .sort((a, b) => a.position - b.position)
+            .map(group => group.activities
+              .sort((a, b) => a.position - b.position)
+            )
+        );
       };
     }
     // eslint-disable-next-line
@@ -248,6 +295,11 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
                       : ""
                   }
                   fetchData={() => fetchData()}
+                  position={
+                    el
+                      ? el.length
+                      : 0
+                  }
                 />
               </Col>
             </Row>
@@ -255,6 +307,11 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
       </DragDropContext>
       <CreateGroup
         fetchData={() => fetchData()}
+        position={
+          state
+            ? state.length
+            : 0
+        }
       />
     </Row>
   );

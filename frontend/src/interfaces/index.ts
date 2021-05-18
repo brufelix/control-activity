@@ -9,53 +9,48 @@ export interface ICard {
 
 export interface IActivity {
   mainId: string;
-  groupId: string
+  groupId: string;
   description: string;
   done: boolean;
   createAt: string;
   delivery: string;
+  position: number;
 };
 
 export interface IGroup {
   _id: string;
   title: string;
-  activities: IActivity[]
-};
-
-export interface IResponseGroup {
-  data: IGroup[]
-};
-
-export interface IResponseSearch {
-  _id: string;
   activities: IActivity[];
+  position: number;
 };
 
 export interface ICreateGroup {
-  fetchData?(): void
+  fetchData?(): void;
+  position?: number;
 };
 
 export interface IRegisterActivity {
   _id: string;
   fetchData?(): void;
+  position?: number;
 };
 
 export interface ITitle {
-  id: string
-  fetchData?(): void
+  id: string;
+  fetchData?(): void;
 };
 
 export interface IHome {
   setCount?(number: number): void;
-  resultSearch?: IResponseSearch[];
+  resultSearch?: IGroup[];
 };
 
 export interface IDrogAndDrop {
   setCount?(number: number): void;
-  resultSearch?: IResponseSearch[];
+  resultSearch?: IGroup[];
 };
 
 export interface IHeader {
   count: number;
-  setResultSearch?(result: IResponseSearch[]): void;
+  setResultSearch?(result: IGroup[]): void;
 };

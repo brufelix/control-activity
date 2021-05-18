@@ -6,7 +6,7 @@ import 'moment/locale/pt-br';
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
-import { IResponseSearch } from "./interfaces";
+import { IGroup } from "./interfaces";
 import './App.css';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
   const { Content } = Layout;
 
   const [count, setCount] = useState(0);
-  const [resultSearch, setResultSearch] = useState<IResponseSearch[]>();
+  const [resultSearch, setResultSearch] = useState<IGroup[]>();
 
   return (
     <ConfigProvider
@@ -24,7 +24,7 @@ function App() {
         <Header
           count={count}
           setResultSearch={
-            (result: IResponseSearch[]) => setResultSearch(result)
+            (result: IGroup[]) => setResultSearch(result)
           }
         />
         <Content

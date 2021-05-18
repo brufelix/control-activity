@@ -7,13 +7,13 @@ import api from "../../service";
 
 const CreateGroup: React.FC<ICreateGroup> = (props) => {
 
-  const { fetchData } = props;
+  const { fetchData, position } = props;
 
   const [inputVisible, setInputVisible] = useState(Boolean);
   const [description, setDescription] = useState(String);
 
   const handleEnterInput = () => {
-    api.post("/group", { title: description })
+    api.post("/group", { title: description, groupPosition: position })
       .then(() => setInputVisible(false))
       .then(() => setDescription(""))
       .then(() => fetchData && fetchData());

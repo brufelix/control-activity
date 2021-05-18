@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Input, Badge, Row, Popover, } from 'antd';
 import { NotificationOutlined } from "@ant-design/icons";
 
-import { IHeader, IResponseSearch } from "../../interfaces";
+import { IHeader, IGroup } from "../../interfaces";
 import api from '../../service';
 
 const Header: React.FC<IHeader> = (props) => {
@@ -20,7 +20,7 @@ const Header: React.FC<IHeader> = (props) => {
   );
 
   const handleSearch = (search: string) => {
-    api.post<IResponseSearch[]>("/activity/search", {
+    api.post<IGroup[]>("/activity/search", {
       search
     }).then(res => {
       setResultSearch(res.data)

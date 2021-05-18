@@ -8,7 +8,7 @@ import "./index.css";
 
 const RegisterActivity: React.FC<IRegisterActivity> = (props) => {
 
-  const { _id, fetchData } = props;
+  const { _id, fetchData, position } = props;
   const { TextArea } = Input;
 
   const [visible, setVisible] = useState(Boolean);
@@ -18,7 +18,8 @@ const RegisterActivity: React.FC<IRegisterActivity> = (props) => {
   const registerActivity = () => {
     api.post("/activity", {
       groupId,
-      description
+      description,
+      position,
     })
       .then(() => setVisible(false))
       .then(() => setDescription(""))
