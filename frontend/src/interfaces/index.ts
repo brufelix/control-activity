@@ -26,6 +26,11 @@ export interface IResponseGroup {
   data: IGroup[]
 };
 
+export interface IResponseSearch {
+  _id: string;
+  activities: IActivity[];
+};
+
 export interface ICreateGroup {
   fetchData?(): void
 };
@@ -42,12 +47,15 @@ export interface ITitle {
 
 export interface IHome {
   setCount?(number: number): void;
+  resultSearch?: IResponseSearch[];
 };
 
 export interface IDrogAndDrop {
   setCount?(number: number): void;
+  resultSearch?: IResponseSearch[];
 };
 
 export interface IHeader {
   count: number;
+  setResultSearch?(result: IResponseSearch[]): void;
 };

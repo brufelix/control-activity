@@ -19,6 +19,7 @@ import api from "../../service";
 
 const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
 
+  const { resultSearch, setCount } = props;
   const [state, setState] = useState<IActivity[][]>();
   const grid = 8;
 
@@ -128,7 +129,7 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
         }
       })
     });
-    props.setCount(count);
+    setCount(count);
 
     if (count)
       openNotification(count);
@@ -141,6 +142,15 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
         setState(data.data.map(item => item.activities));
       });
   };
+
+  useEffect(() => {
+    if (state && resultSearch) {
+      if (resultSearch.length) {
+        setState(resultSearch.map(item => item.activities));
+      };
+    }
+    // eslint-disable-next-line
+  }, [resultSearch]);
 
   useEffect(() => {
     setNumberOverdueActivities();

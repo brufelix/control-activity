@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Input, Badge, Row } from 'antd';
 import { NotificationOutlined } from "@ant-design/icons";
 
-import { IHeader } from "../../interfaces";
+import { IActivity, IHeader, IResponseSearch } from "../../interfaces";
+import api from '../../service';
 
 const Header: React.FC<IHeader> = (props) => {
 
-  const { count } = props;
+  const { count, setResultSearch } = props;
   const { Header } = Layout;
   const { Search } = Input;
+
+  const [search, setSearch] = useState("");
+
+  const handleSearch = (search: string) => {
+    api.post<IResponseSearch[]>("/activity/search", {
+      search
+    }).then(res => {
+      setResultSearch(res.data)
+    }
+    );
+  };
 
   return (
     <Header
@@ -26,6 +38,9 @@ const Header: React.FC<IHeader> = (props) => {
       >
         <Search
           style={{ maxWidth: "300px", }}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onSearch={(value) => handleSearch(value)}
         />
         <Row
           style={{ height: "100%", }}

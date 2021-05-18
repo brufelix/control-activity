@@ -27,8 +27,7 @@ const Title: React.FC<ITitle> = (props) => {
   }
 
   useEffect(() => {
-    if (!title.trim())
-      getTitle();
+    getTitle();
     // eslint-disable-next-line
   }, [_id]);
 
