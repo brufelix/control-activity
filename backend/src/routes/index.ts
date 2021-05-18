@@ -9,7 +9,8 @@ import {
   doneAct,
   updateGro,
   deliveryAct,
-  nameGroup
+  nameGroup,
+  searchAct,
 } from "../controllers";
 
 export default (app: Express) => {
@@ -21,5 +22,6 @@ export default (app: Express) => {
   app.post("/api/activity/updateAct", updateAct);
   app.post("/api/activity/done", doneAct);
   app.post("/api/activity/delivery", deliveryAct);
+  app.post("/api/activity/search", searchAct);
   app.post("/api/groupname", nameGroup);
 };

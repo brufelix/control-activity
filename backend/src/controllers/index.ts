@@ -7,3 +7,4 @@ export { default as doneAct } from "./doneAct";
 export { default as updateGro } from "./updateGro";
 export { default as deliveryAct } from "./deliveryAct";
 export { default as nameGroup } from "./nameGroup";
+export { default as searchAct } from "./searchAct";
