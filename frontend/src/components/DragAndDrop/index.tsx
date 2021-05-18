@@ -21,12 +21,13 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
 
   const { resultSearch, setCount } = props;
   const [state, setState] = useState<IActivity[][]>();
+  const [notified, setNotified] = useState<Boolean>(false);
   const grid = 8;
 
   const openNotification = (number: number) => {
     notification.warning({
       message: `Atividades atrasadas :(`,
-      description: `Você possui ${number} atividades(s) atrasadas`,
+      description: `Você possui ${number} atividade(s) atrasada(s)`,
       placement: "topLeft",
       duration: 4.5
     });
@@ -124,15 +125,18 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
 
     state && state.forEach(group => {
       group.forEach(act => {
-        if (act.delivery && compareDate(act.delivery.slice(0, 10))) {
+        if (act.delivery && !act.done &&
+          compareDate(act.delivery.slice(0, 10))) {
           count++;
         }
       })
     });
     setCount(count);
 
-    if (count)
+    if (count && !notified) {
       openNotification(count);
+      setNotified(true);
+    };
   };
 
   const fetchData = async () => {

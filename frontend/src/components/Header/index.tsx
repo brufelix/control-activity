@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Layout, Input, Badge, Row } from 'antd';
+import { Layout, Input, Badge, Row, Popover, } from 'antd';
 import { NotificationOutlined } from "@ant-design/icons";
 
-import { IActivity, IHeader, IResponseSearch } from "../../interfaces";
+import { IHeader, IResponseSearch } from "../../interfaces";
 import api from '../../service';
 
 const Header: React.FC<IHeader> = (props) => {
@@ -12,6 +12,12 @@ const Header: React.FC<IHeader> = (props) => {
   const { Search } = Input;
 
   const [search, setSearch] = useState("");
+
+  const content = (
+    <div>
+      <p>Total de atividades atrasadas: {count}</p>
+    </div>
+  );
 
   const handleSearch = (search: string) => {
     api.post<IResponseSearch[]>("/activity/search", {
@@ -47,16 +53,22 @@ const Header: React.FC<IHeader> = (props) => {
           justify="center"
           align="middle"
         >
-          <NotificationOutlined
-            style={{
-              color: "white",
-              fontSize: "16px",
-              marginRight: "10px",
-            }}
-          />
-          <Badge
-            count={count}
-          />
+          <Popover
+            trigger={["hover"]}
+            content={content}
+            placement="left"
+          >
+            <NotificationOutlined
+              style={{
+                color: "white",
+                fontSize: "16px",
+                marginRight: "10px",
+              }}
+            />
+            <Badge
+              count={count}
+            />
+          </Popover>
         </Row>
       </Row>
     </Header>
