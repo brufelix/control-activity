@@ -12,6 +12,7 @@ import {
   nameGroup,
   searchAct,
   updatePositionAct,
+  deleteGro,
 } from "../controllers";
 
 export default (app: Express) => {
@@ -25,5 +26,6 @@ export default (app: Express) => {
   app.post("/api/activity/delivery", deliveryAct);
   app.post("/api/activity/search", searchAct);
   app.post("/api/groupname", nameGroup);
+  app.post("/api/group/delete", deleteGro);
   app.post("/api/activity/updateposition", updatePositionAct);
 };

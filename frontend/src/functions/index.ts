@@ -25,6 +25,10 @@ const moveActivity = (
   });
 };
 
+const deleteGroup = (_id: string) => {
+  api.post("/group/delete", { _id });
+};
+
 const updatePositionItemsBack = async (items: IActivity[], referenceIndex: number) => {
   let index = referenceIndex;
 
@@ -80,6 +84,10 @@ export const move = (
   const destClone = Array.from<IActivity>(destination);
   const [removed] = sourceClone.splice(droppableSource.index, 1);
   const { groupId } = destClone[0];
+
+  if (!sourceClone.length) {
+    deleteGroup(removed["groupId"]);
+  }
 
   moveActivity(removed, groupId, droppableDestination.index);
   updateItemPositionForward(destClone.slice(droppableDestination.index), droppableDestination.index);

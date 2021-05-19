@@ -137,98 +137,100 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
         onDragEnd={onDragEnd}
       >
         {
-          groups && groups.map((el, ind) => (
-            <Row
-              key={ind}
-              style={{
-                margin: "0 10px 0 10px",
-              }}
-            >
-              <Col>
-                <Title
-                  id={
-                    el[0].groupId
-                      ? el[0].groupId
-                      : ""
-                  }
-                  fetchData={() => fetchData()}
-                />
-                <Row
-                  justify="center"
-                >
-                  <Droppable key={ind} droppableId={`${ind}`}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        style={getListStyle(snapshot.isDraggingOver)}
-                        {...provided.droppableProps}
-                      >
-                        {el.map((item, index) => (
-                          <Draggable
-                            key={item.mainId}
-                            draggableId={item.mainId}
-                            index={index}
-                          >
-                            {(provided, snapshot) => (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                style={getItemStyle(
-                                  snapshot.isDragging,
-                                  provided.draggableProps.style
-                                )}
-                              >
+          groups && groups
+            .filter(el => el.length)
+            .map((el, ind) => (
+              <Row
+                key={ind}
+                style={{
+                  margin: "0 10px 0 10px",
+                }}
+              >
+                <Col>
+                  <Title
+                    id={
+                      el[0].groupId
+                        ? el[0].groupId
+                        : ""
+                    }
+                    fetchData={() => fetchData()}
+                  />
+                  <Row
+                    justify="center"
+                  >
+                    <Droppable key={ind} droppableId={`${ind}`}>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          style={getListStyle(snapshot.isDraggingOver)}
+                          {...provided.droppableProps}
+                        >
+                          {el.map((item, index) => (
+                            <Draggable
+                              key={item.mainId}
+                              draggableId={item.mainId}
+                              index={index}
+                            >
+                              {(provided, snapshot) => (
                                 <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    cursor: "pointer",
-                                    height: "auto"
-                                  }}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  style={getItemStyle(
+                                    snapshot.isDragging,
+                                    provided.draggableProps.style
+                                  )}
                                 >
-                                  <Card
-                                    mainId={item.mainId}
-                                    description={item.description}
-                                    groupId={item.groupId}
-                                    done={item.done}
-                                    delivery={item.delivery}
-                                    fetchData={() => fetchData()}
-                                    getSearchData={() => getSearchData(currentResearch)}
-                                    inResearch={inResearch}
-                                  />
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      cursor: "pointer",
+                                      height: "auto"
+                                    }}
+                                  >
+                                    <Card
+                                      mainId={item.mainId}
+                                      description={item.description}
+                                      groupId={item.groupId}
+                                      done={item.done}
+                                      delivery={item.delivery}
+                                      fetchData={() => fetchData()}
+                                      getSearchData={() => getSearchData(currentResearch)}
+                                      inResearch={inResearch}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </Row>
-                <RegisterActivity
-                  _id={
-                    el[0].groupId
-                      ? el[0].groupId
-                      : ""
-                  }
-                  fetchData={() => fetchData()}
-                  position={
-                    el
-                      ? el.length
-                      : 0
-                  }
-                />
-              </Col>
-            </Row>
-          ))}
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </Row>
+                  <RegisterActivity
+                    _id={
+                      el[0].groupId
+                        ? el[0].groupId
+                        : ""
+                    }
+                    fetchData={() => fetchData()}
+                    position={
+                      el
+                        ? el.length
+                        : 0
+                    }
+                  />
+                </Col>
+              </Row>
+            ))}
       </DragDropContext>
       <CreateGroup
         fetchData={() => fetchData()}
         position={
           groups
-            ? groups.length
+            ? groups.filter(el => el.length).length
             : 0
         }
       />

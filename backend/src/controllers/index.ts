@@ -9,3 +9,4 @@ export { default as deliveryAct } from "./deliveryAct";
 export { default as nameGroup } from "./nameGroup";
 export { default as searchAct } from "./searchAct";
 export { default as updatePositionAct } from "./updatePositionAct";
+export { default as deleteGro } from "./deleteGro";
