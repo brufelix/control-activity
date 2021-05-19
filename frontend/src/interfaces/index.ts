@@ -4,7 +4,9 @@ export interface ICard {
   description: string;
   done?: boolean;
   delivery?: string;
+  inResearch?: boolean;
   fetchData?(): void;
+  getSearchData?(): void;
 };
 
 export interface IActivity {
@@ -25,14 +27,14 @@ export interface IGroup {
 };
 
 export interface ICreateGroup {
-  fetchData?(): void;
   position?: number;
+  fetchData?(): void;
 };
 
 export interface IRegisterActivity {
   _id: string;
-  fetchData?(): void;
   position?: number;
+  fetchData?(): void;
 };
 
 export interface ITitle {
@@ -41,16 +43,22 @@ export interface ITitle {
 };
 
 export interface IHome {
-  setCount?(number: number): void;
   resultSearch?: IGroup[];
+  currentResearch?: string;
+  setCount?(number: number): void;
+  setResultSearch?(result: IGroup[]): void;
 };
 
 export interface IDrogAndDrop {
-  setCount?(number: number): void;
   resultSearch?: IGroup[];
+  currentResearch?: string;
+  setCount?(number: number): void;
+  setResultSearch?(result: IGroup[]): void;
 };
 
 export interface IHeader {
   count: number;
+  currentResearch?: string;
+  setCurrentResearch?(search: string): void;
   setResultSearch?(result: IGroup[]): void;
 };

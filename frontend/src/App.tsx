@@ -15,6 +15,7 @@ function App() {
 
   const [count, setCount] = useState(0);
   const [resultSearch, setResultSearch] = useState<IGroup[]>();
+  const [currentResearch, setCurrentResearch] = useState("");
 
   return (
     <ConfigProvider
@@ -23,16 +24,17 @@ function App() {
       <Layout>
         <Header
           count={count}
-          setResultSearch={
-            (result: IGroup[]) => setResultSearch(result)
-          }
+          setResultSearch={(res: IGroup[]) => setResultSearch(res)}
+          setCurrentResearch={(search) => setCurrentResearch(search)}
         />
         <Content
           style={{ overflow: "auto" }}
         >
           <Home
             setCount={(number: number) => setCount(number)}
+            currentResearch={currentResearch}
             resultSearch={resultSearch}
+            setResultSearch={(res) => setResultSearch(res)}
           />
         </Content>
         <Footer />

@@ -7,7 +7,7 @@ import api from '../../service';
 
 const Header: React.FC<IHeader> = (props) => {
 
-  const { count, setResultSearch } = props;
+  const { count, setResultSearch, setCurrentResearch } = props;
   const { Header } = Layout;
   const { Search } = Input;
 
@@ -20,11 +20,10 @@ const Header: React.FC<IHeader> = (props) => {
   );
 
   const handleSearch = (search: string) => {
+    setCurrentResearch(search);
     api.post<IGroup[]>("/activity/search", {
       search
-    }).then(res => {
-      setResultSearch(res.data)
-    }
+    }).then(res => setResultSearch(res.data)
     );
   };
 

@@ -19,9 +19,10 @@ import api from "../../service";
 
 const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
 
-  const { resultSearch, setCount } = props;
-  const [state, setState] = useState<IActivity[][]>();
-  const [notified, setNotified] = useState<Boolean>(false);
+  const { resultSearch, currentResearch, setCount, setResultSearch } = props;
+  const [groups, setGroups] = useState<IActivity[][]>();
+  const [notified, setNotified] = useState<boolean>(false);
+  const [inResearch, setInResearch] = useState<boolean>(false);
   const grid = 8;
 
   const openNotification = (number: number) => {
@@ -125,6 +126,7 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
 
     ...draggableStyle
   });
+
   const getListStyle = (isDraggingOver: DroppableStateSnapshot | Boolean) => ({
     background: isDraggingOver ? "lightblue" : "lightgrey",
     padding: grid,
@@ -141,24 +143,24 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
     const dInd = +destination.droppableId;
 
     if (sInd === dInd) {
-      const items: any = reorder(state[sInd], source.index, destination.index);
-      const newState = [...state];
+      const items: any = reorder(groups[sInd], source.index, destination.index);
+      const newState = [...groups];
       newState[sInd] = items;
-      setState(newState);
+      setGroups(newState);
     } else {
-      const result: any = move(state[sInd], state[dInd], source, destination);
-      const newState = [...state];
+      const result: any = move(groups[sInd], groups[dInd], source, destination);
+      const newState = [...groups];
       newState[sInd] = result[sInd];
       newState[dInd] = result[dInd];
 
-      setState(newState.filter(group => group.length));
+      setGroups(newState.filter(group => group.length));
     }
   };
 
   const setNumberOverdueActivities = () => {
     let count = 0;
 
-    state && state.forEach(group => {
+    groups && groups.forEach(group => {
       group.forEach(act => {
         if (act.delivery && !act.done &&
           compareDate(act.delivery.slice(0, 10))) {
@@ -174,24 +176,31 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
     };
   };
 
+  const getSearchData = (search: string) => {
+    api.post<IGroup[]>("/activity/search", {
+      search
+    }).then(res => setResultSearch(res.data));
+  };
+
   const fetchData = async () => {
     await api.get<IGroup[]>("/group")
       .then((res) => {
         const { data } = res;
-        setState(
+        setGroups(
           data
             .sort((a, b) => a.position - b.position)
             .map(group => group.activities
               .sort((a, b) => a.position - b.position)
             )
         );
-      });
+      }).then(() => setInResearch(false));
   };
 
   useEffect(() => {
-    if (state && resultSearch) {
+    if (groups && resultSearch) {
       if (resultSearch.length) {
-        setState(
+        setInResearch(true);
+        setGroups(
           resultSearch
             .sort((a, b) => +a._id - +b._id)
             .map(group => group.activities
@@ -206,7 +215,7 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
   useEffect(() => {
     setNumberOverdueActivities();
     // eslint-disable-next-line
-  }, [state])
+  }, [groups])
 
   useEffect(() => {
     fetchData();
@@ -220,7 +229,7 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
         onDragEnd={onDragEnd}
       >
         {
-          state && state.map((el, ind) => (
+          groups && groups.map((el, ind) => (
             <Row
               key={ind}
               style={{
@@ -277,6 +286,8 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
                                     done={item.done}
                                     delivery={item.delivery}
                                     fetchData={() => fetchData()}
+                                    getSearchData={() => getSearchData(currentResearch)}
+                                    inResearch={inResearch}
                                   />
                                 </div>
                               </div>
@@ -308,8 +319,8 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
       <CreateGroup
         fetchData={() => fetchData()}
         position={
-          state
-            ? state.length
+          groups
+            ? groups.length
             : 0
         }
       />

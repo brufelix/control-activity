@@ -8,6 +8,8 @@ const Home: React.FC<IHome> = (props) => {
     <DragAndDrop
       setCount={(number: number) => props.setCount(number)}
       resultSearch={props.resultSearch}
+      currentResearch={props.currentResearch}
+      setResultSearch={(res) => props.setResultSearch(res)}
     />
   );
 }

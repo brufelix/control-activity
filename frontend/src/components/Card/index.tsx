@@ -11,23 +11,15 @@ import "./index.css";
 
 const Card: React.FC<ICard> = (props) => {
 
-  const { description: desc, mainId, groupId, delivery, done, fetchData } = props;
+  const {
+    description: desc, mainId, groupId, delivery,
+    done, inResearch, fetchData, getSearchData,
+  } = props;
   const { TextArea } = Input;
 
   const [showModal, setShowModal] = useState(Boolean);
   const [visible, setVisible] = useState(Boolean);
   const [description, setDescription] = useState(String);
-
-  const handleEnterInputCard = () => {
-    api.post("/activity/updateAct", {
-      mainId,
-      _id: groupId,
-      data: description
-    })
-      .then(() => setDescription(""))
-      .then(() => fetchData && fetchData())
-      .then(() => setShowModal(false));
-  };
 
   const formatDate = (date: string) => {
     const [year, mon, day] = date.slice(0, 10).split("-")
@@ -42,13 +34,30 @@ const Card: React.FC<ICard> = (props) => {
     return moment([year, `${+mon - 1}`, day]).format('DD [de] MMMM/YYYY');
   };
 
+  const handleEnterInputCard = () => {
+    api.post("/activity/updateAct", {
+      mainId,
+      _id: groupId,
+      data: description
+    })
+      .then(() => setDescription(""))
+      .then(() => setShowModal(false))
+      .then(() => inResearch
+        ? getSearchData && getSearchData()
+        : fetchData && fetchData()
+      );
+  };
+
   const addDeliveryData = (date: string) => {
     api.post(`/activity/delivery`, {
       mainId,
       _id: groupId,
       date,
     })
-      .then(() => fetchData && fetchData());
+      .then(() => inResearch
+        ? getSearchData && getSearchData()
+        : fetchData && fetchData()
+      );
   };
 
   const markAsDone = (isChecked: boolean) => {
@@ -59,7 +68,10 @@ const Card: React.FC<ICard> = (props) => {
       _id: groupId,
       done,
     })
-      .then(() => fetchData && fetchData());
+      .then(() => inResearch
+        ? getSearchData && getSearchData()
+        : fetchData && fetchData()
+      );
   };
 
   return (
