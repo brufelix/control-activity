@@ -49,7 +49,11 @@ const AddDeliveryDate: React.FC<IAddDeliveryDate> = (props) => {
           type="primary"
           onClick={() => setVisible(!visible)}
         >
-          Data de Entrega
+          {
+            visible
+              ? "Fechar"
+              : "Data de Entrega"
+          }
         </Button>
       </Popover>
     </Row>
