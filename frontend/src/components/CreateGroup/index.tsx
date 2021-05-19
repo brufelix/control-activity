@@ -36,6 +36,7 @@ const CreateGroup: React.FC<ICreateGroup> = (props) => {
           <Input
             placeholder="Título do novo grupo..."
             onPressEnter={() => handleEnterInput()}
+            onKeyUp={(e) => e.key === "Escape" && setInputVisible(false)}
             onChange={(event) => setDescription(event.target.value)}
             value={description}
             style={{
