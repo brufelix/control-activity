@@ -193,7 +193,7 @@ const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
       if (resultSearch.length) {
         setState(
           resultSearch
-            .sort((a, b) => a.position - b.position)
+            .sort((a, b) => +a._id - +b._id)
             .map(group => group.activities
               .sort((a, b) => a.position - b.position)
             )

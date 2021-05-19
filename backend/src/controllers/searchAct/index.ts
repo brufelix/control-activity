@@ -5,9 +5,9 @@ export default async (req: Request, res: Response) => {
   const { search } = req.body;
   try {
     ModelGroup.aggregate([
-      { $unwind: '$activities' },
+      { $unwind: "$activities" },
       { $match: { "activities.description": new RegExp(search, "i") } },
-      { $group: { _id: '$_id', activities: { $push: '$activities' } } }
+      { $group: { _id: "$position", activities: { $push: "$activities" } } },
     ])
       .exec(function (err, result) {
         if (err)
