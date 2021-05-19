@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import {
-  Input, Modal, Button, Row, Col, Popover, DatePicker, Checkbox
-} from "antd";
-import moment from "moment";
+import { Input, Modal, Button, Row, Col, Checkbox } from "antd";
 
-import { compareDate } from "../../utils";
+import AddDeliveryDate from "../AddDeliveryDate";
+import { compareDate, formatDate } from "../../utils";
 import api from "../../service";
 import { ICard } from "../../interfaces";
 import "./index.css";
@@ -21,19 +19,6 @@ const Card: React.FC<ICard> = (props) => {
   const [visible, setVisible] = useState(Boolean);
   const [description, setDescription] = useState(String);
 
-  const formatDate = (date: string) => {
-    const [year, mon, day] = date.slice(0, 10).split("-")
-    moment.locale('pt');
-    moment.updateLocale('pt', {
-      months: [
-        "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul",
-        "Ago", "Set", "Out", "Nov", "Dez"
-      ]
-    });
-
-    return moment([year, `${+mon - 1}`, day]).format('DD [de] MMMM/YYYY');
-  };
-
   const handleEnterInputCard = () => {
     api.post("/activity/updateAct", {
       mainId,
@@ -42,18 +27,6 @@ const Card: React.FC<ICard> = (props) => {
     })
       .then(() => setDescription(""))
       .then(() => setShowModal(false))
-      .then(() => inResearch
-        ? getSearchData && getSearchData()
-        : fetchData && fetchData()
-      );
-  };
-
-  const addDeliveryData = (date: string) => {
-    api.post(`/activity/delivery`, {
-      mainId,
-      _id: groupId,
-      date,
-    })
       .then(() => inResearch
         ? getSearchData && getSearchData()
         : fetchData && fetchData()
@@ -118,35 +91,15 @@ const Card: React.FC<ICard> = (props) => {
                 rows={2}
               />
             </Row>
-            <Row
-              justify="start"
-              align="middle"
-            >
-              <Popover
-                content={
-                  <DatePicker
-                    format="DD/MM/YYYY"
-                    onSelect={(e) => {
-                      addDeliveryData(
-                        e.startOf('day')
-                          .format("YYYY-MM-DDTHH:mm:ss-03:00")
-                      );
-                      setVisible(false);
-                    }
-                    }
-                  />
-                }
-                trigger="click"
-                visible={visible}
-              >
-                <Button
-                  type="primary"
-                  onClick={() => setVisible(!visible)}
-                >
-                  Data de Entrega
-                </Button>
-              </Popover>
-            </Row>
+            <AddDeliveryDate
+              groupId={groupId}
+              inResearch={inResearch}
+              mainId={mainId}
+              visible={visible}
+              fetchData={() => fetchData()}
+              getSearchData={() => getSearchData()}
+              setVisible={(boolean) => setVisible(boolean)}
+            />
           </Modal>
         )
       }

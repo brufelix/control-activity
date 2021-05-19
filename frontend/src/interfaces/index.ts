@@ -19,6 +19,16 @@ export interface IActivity {
   position: number;
 };
 
+export interface IAddDeliveryDate {
+  mainId: string;
+  groupId: string;
+  inResearch: boolean;
+  visible?: boolean;
+  setVisible?(boolean: boolean): void;
+  getSearchData?(): void;
+  fetchData?(): void;
+};
+
 export interface IGroup {
   _id: string;
   title: string;
