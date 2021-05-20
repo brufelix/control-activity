@@ -9,7 +9,7 @@ export default (req: Request, res: Response) => {
         _id,
         "activities.mainId": mainId,
       },
-      { $set: { "activities.$.delivery": date } },
+      { $set: { "activities.$.delivery": date, "activities.$.done": false } },
       null,
       (error) => {
         if (error) {
