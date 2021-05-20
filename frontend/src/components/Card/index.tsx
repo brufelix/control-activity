@@ -70,6 +70,7 @@ const Card: React.FC<ICard> = (props) => {
               </Button>,
               <Button
                 key={1}
+                disabled={!description.trim()}
                 onClick={() => handleEnterInputCard()}
                 type="primary"
               >
@@ -80,7 +81,7 @@ const Card: React.FC<ICard> = (props) => {
           >
             <Row>
               <TextArea
-                placeholder="Descrição da atividade..."
+                placeholder="Nova descrição da atividade..."
                 onPressEnter={() => handleEnterInputCard()}
                 onChange={(event) => setDescription(event.target.value)}
                 value={description}

@@ -3,6 +3,7 @@ import { Typography, Input, Row } from "antd";
 
 import { ITitle } from "../../interfaces";
 import api from "../../service";
+import "./index.css";
 
 const Title: React.FC<ITitle> = (props) => {
 
@@ -44,6 +45,7 @@ const Title: React.FC<ITitle> = (props) => {
         inputVisible && (
           <Input
             placeholder="Digite o título do grupo..."
+            onKeyUp={(e) => e.key === "Escape" && setInputVisible(false)}
             onPressEnter={() => handleEnterInput()}
             onChange={(event) => setDescription(event.target.value)}
             value={description}
@@ -56,10 +58,8 @@ const Title: React.FC<ITitle> = (props) => {
           <Title
             onClick={() => setInputVisible(true)}
             level={3}
-            style={{
-              color: "white",
-              marginBottom: 0
-            }}
+            title={title}
+            className="group-title"
           >
             {title}
           </Title>
