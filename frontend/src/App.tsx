@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import CountProvider from "./hooks/count";
 import SearchResultProvider from "./hooks/searchResult";
-import SearchDescription from "./hooks/searchDescription";
+import SearchDescriptionProvider from "./hooks/searchDescription";
 import './App.css';
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
   const { Content } = Layout;
 
   return (
-    <SearchDescription>
+    <SearchDescriptionProvider>
       <SearchResultProvider>
         <CountProvider>
           <ConfigProvider locale={locale} >
@@ -30,7 +30,7 @@ function App() {
           </ConfigProvider>
         </CountProvider>
       </SearchResultProvider>
-    </SearchDescription>
+    </SearchDescriptionProvider>
   );
 }
 

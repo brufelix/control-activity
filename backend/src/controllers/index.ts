@@ -10,3 +10,4 @@ export { default as nameGroup } from "./nameGroup";
 export { default as searchAct } from "./searchAct";
 export { default as updatePositionAct } from "./updatePositionAct";
 export { default as deleteGro } from "./deleteGro";
+export { default as updatePositionGro } from "./updatePositionGro";

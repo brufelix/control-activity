@@ -2,7 +2,7 @@ import { notification } from "antd";
 import { DraggableLocation } from "react-beautiful-dnd";
 
 import api from "../service";
-import { IActivity } from "../interfaces";
+import { IActivity, IGroup } from "../interfaces";
 
 const moveActivity = (
   act: IActivity,
@@ -55,6 +55,19 @@ const updateItemPositionForward = async (items: IActivity[], referenceIndex: num
       });
     })
   );
+};
+
+export const updateGroupPosition = async () => {
+  const groups = await api.get<IGroup[]>("/group")
+    .then((res) => res.data);
+
+  await Promise.all(groups.sort((a, b) => a.position - b.position)
+    .map(async ({ _id }, position) => {
+      await api.post("/group/updateposition", {
+        _id,
+        position,
+      });
+    }))
 };
 
 export const reorder = (list: any, startIndex: number, endIndex: number) => {

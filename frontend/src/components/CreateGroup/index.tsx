@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Input } from "antd";
 import { PlusCircleFilled } from "@ant-design/icons";
 
+import { updateGroupPosition } from "../../functions";
 import { ICreateGroup } from "../../interfaces";
 import api from "../../service";
 
@@ -13,10 +14,13 @@ const CreateGroup: React.FC<ICreateGroup> = (props) => {
   const [description, setDescription] = useState(String);
 
   const handleEnterInput = () => {
-    api.post("/group", { title: description, groupPosition: position })
-      .then(() => setInputVisible(false))
-      .then(() => setDescription(""))
-      .then(() => fetchData && fetchData());
+    updateGroupPosition()
+      .then(() => {
+        api.post("/group", { title: description, groupPosition: position })
+          .then(() => setInputVisible(false))
+          .then(() => setDescription(""))
+          .then(() => fetchData && fetchData());
+      })
   };
 
   return (
