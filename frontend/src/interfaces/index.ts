@@ -52,23 +52,17 @@ export interface ITitle {
   fetchData?(): void;
 };
 
-export interface IHome {
-  resultSearch?: IGroup[];
-  currentResearch?: string;
-  setCount?(number: number): void;
-  setResultSearch?(result: IGroup[]): void;
-};
-
-export interface IDrogAndDrop {
-  resultSearch?: IGroup[];
-  currentResearch?: string;
-  setCount?(number: number): void;
-  setResultSearch?(result: IGroup[]): void;
-};
-
-export interface IHeader {
+export interface IUseCount {
   count: number;
-  currentResearch?: string;
-  setCurrentResearch?(search: string): void;
-  setResultSearch?(result: IGroup[]): void;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export interface IUseSearchResult {
+  resultSearch: IGroup[];
+  setResultSearch: React.Dispatch<React.SetStateAction<IGroup[]>>;
+};
+
+export interface IUserSearchDesc {
+  currentResearch: string;
+  setCurrentResearch: React.Dispatch<React.SetStateAction<string>>;
 };

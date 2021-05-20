@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import { Layout, Input, Badge, Row, Popover, } from 'antd';
 import { NotificationOutlined } from "@ant-design/icons";
 
-import { IHeader, IGroup } from "../../interfaces";
+import { useCount } from "../../hooks/count";
+import { useSearchResult } from "../../hooks/searchResult";
+import { useSearchDescription } from "../../hooks/searchDescription";
+import { IGroup } from "../../interfaces";
 import api from '../../service';
 
-const Header: React.FC<IHeader> = (props) => {
+const Header: React.FC = () => {
 
-  const { count, setResultSearch, setCurrentResearch } = props;
+  const { count } = useCount();
+  const { setResultSearch } = useSearchResult();
+  const { setCurrentResearch } = useSearchDescription();
   const { Header } = Layout;
   const { Search } = Input;
 

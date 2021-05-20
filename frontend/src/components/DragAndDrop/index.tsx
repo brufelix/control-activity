@@ -8,18 +8,23 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 
+import { useCount } from "../../hooks/count";
+import { useSearchResult } from "../../hooks/searchResult";
+import { useSearchDescription } from "../../hooks/searchDescription";
 import { move, reorder, openNotification } from "../../functions";
 import { compareDate } from "../../utils";
-import { IActivity, IGroup, IDrogAndDrop } from "../../interfaces";
+import { IActivity, IGroup } from "../../interfaces";
 import CreateGroup from "../CreateGroup";
 import RegisterActivity from "../RegisterActivity";
 import Card from "../Card";
 import Title from "../Title";
 import api from "../../service";
 
-const DrogAndDrop: React.FC<IDrogAndDrop> = (props) => {
+const DrogAndDrop: React.FC = () => {
 
-  const { resultSearch, currentResearch, setCount, setResultSearch } = props;
+  const { setCount } = useCount();
+  const { setResultSearch, resultSearch } = useSearchResult();
+  const { currentResearch } = useSearchDescription();
   const [groups, setGroups] = useState<IActivity[][]>();
   const [notified, setNotified] = useState<boolean>(false);
   const [inResearch, setInResearch] = useState<boolean>(false);
