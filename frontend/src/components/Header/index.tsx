@@ -26,10 +26,13 @@ const Header: React.FC = () => {
 
   const handleSearch = (search: string) => {
     setCurrentResearch(search);
-    api.post<IGroup[]>("/activity/search", {
-      search
-    }).then(res => setResultSearch(res.data)
-    );
+    try {
+      api.post<IGroup[]>("/activity/search", {
+        search
+      }).then(res => setResultSearch(res.data));
+    } catch (error) {
+      throw error;
+    };
   };
 
   return (

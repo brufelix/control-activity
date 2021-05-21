@@ -20,31 +20,36 @@ const Card: React.FC<ICard> = (props) => {
   const [description, setDescription] = useState(String);
 
   const handleEnterInputCard = () => {
-    api.post("/activity/updateAct", {
-      mainId,
-      _id: groupId,
-      data: description
-    })
-      .then(() => setDescription(""))
-      .then(() => setShowModal(false))
-      .then(() => inResearch
-        ? getSearchData && getSearchData()
-        : fetchData && fetchData()
-      );
+    try {
+      api.post("/activity/updateAct", {
+        mainId,
+        _id: groupId,
+        data: description
+      }).then(() => setDescription(""))
+        .then(() => setShowModal(false))
+        .then(() => inResearch
+          ? getSearchData && getSearchData()
+          : fetchData && fetchData()
+        );
+    } catch (error) {
+      throw error;
+    }
   };
 
   const markAsDone = (isChecked: boolean) => {
     const done = isChecked ? true : false;
-
-    api.post(`/activity/done`, {
-      mainId,
-      _id: groupId,
-      done,
-    })
-      .then(() => inResearch
+    try {
+      api.post(`/activity/done`, {
+        mainId,
+        _id: groupId,
+        done,
+      }).then(() => inResearch
         ? getSearchData && getSearchData()
         : fetchData && fetchData()
       );
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (

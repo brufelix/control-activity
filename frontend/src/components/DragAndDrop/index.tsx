@@ -90,23 +90,30 @@ const DrogAndDrop: React.FC = () => {
   };
 
   const getSearchData = (search: string) => {
-    api
-      .post<IGroup[]>("/activity/search", { search })
-      .then(res => setResultSearch(res.data));
+    try {
+      api.post<IGroup[]>("/activity/search", { search })
+        .then(res => setResultSearch(res.data));
+    } catch (error) {
+      throw error;
+    };
   };
 
   const fetchData = async () => {
-    await api.get<IGroup[]>("/group")
-      .then((res) => {
-        const { data } = res;
-        setGroups(
-          data
-            .sort((a, b) => a.position - b.position)
-            .map(group => group.activities
+    try {
+      await api.get<IGroup[]>("/group")
+        .then((res) => {
+          const { data } = res;
+          setGroups(
+            data
               .sort((a, b) => a.position - b.position)
-            )
-        );
-      }).then(() => setInResearch(false));
+              .map(group => group.activities
+                .sort((a, b) => a.position - b.position)
+              )
+          );
+        }).then(() => setInResearch(false));
+    } catch (error) {
+      throw error;
+    };
   };
 
   useEffect(() => {

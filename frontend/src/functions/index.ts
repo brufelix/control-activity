@@ -9,73 +9,95 @@ const moveActivity = (
   targetGroup: string,
   position: number,
 ) => {
-  api.post("/activity", {
-    groupId: targetGroup,
-    description: act.description,
-    done: act.done,
-    createAt: act.createAt,
-    delivery: act.delivery,
-    mainId: act.mainId,
-    position,
-  });
+  try {
+    api.post("/activity", {
+      groupId: targetGroup,
+      description: act.description,
+      done: act.done,
+      createAt: act.createAt,
+      delivery: act.delivery,
+      mainId: act.mainId,
+      position,
+    });
 
-  api.post("/activity/delete", {
-    mainId: act.mainId,
-    groupId: act.groupId,
-  });
+    api.post("/activity/delete", {
+      mainId: act.mainId,
+      groupId: act.groupId,
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
 const deleteGroup = (_id: string) => {
-  api.post("/group/delete", { _id });
+  try {
+    api.post("/group/delete", { _id });
+  } catch (error) {
+    throw error;
+  }
 };
 
 const updatePositionItemsBack = async (items: IActivity[], referenceIndex: number) => {
   let index = referenceIndex;
-
-  await Promise.all(
-    items.map(async item => {
-      await api.post(`/activity/updateposition`, {
-        _id: item.groupId,
-        mainId: item.mainId,
-        newPosition: --index,
-      });
-    })
-  );
+  try {
+    await Promise.all(
+      items.map(async item => {
+        await api.post(`/activity/updateposition`, {
+          _id: item.groupId,
+          mainId: item.mainId,
+          newPosition: --index,
+        });
+      })
+    );
+  } catch (error) {
+    throw error;
+  };
 };
 
 const updateItemPositionForward = async (items: IActivity[], referenceIndex: number) => {
   let index = referenceIndex;
-
-  await Promise.all(
-    items.map(async item => {
-      await api.post(`/activity/updateposition`, {
-        _id: item.groupId,
-        mainId: item.mainId,
-        newPosition: ++index,
-      });
-    })
-  );
+  try {
+    await Promise.all(
+      items.map(async item => {
+        await api.post(`/activity/updateposition`, {
+          _id: item.groupId,
+          mainId: item.mainId,
+          newPosition: ++index,
+        });
+      })
+    );
+  } catch (error) {
+    throw error;
+  };
 };
 
 export const updateGroupPosition = async () => {
-  const groups = await api.get<IGroup[]>("/group")
-    .then((res) => res.data);
+  try {
+    const groups = await api.get<IGroup[]>("/group")
+      .then((res) => res.data);
 
-  await Promise.all(groups.sort((a, b) => a.position - b.position)
-    .map(async ({ _id }, position) => {
-      await api.post("/group/updateposition", {
-        _id,
-        position,
-      });
-    }))
+    await Promise.all(groups.sort((a, b) => a.position - b.position)
+      .map(async ({ _id }, position) => {
+        await api.post("/group/updateposition", {
+          _id,
+          position,
+        });
+      }))
+  } catch (error) {
+    throw error;
+  };
 };
 
 const updatePositionAct = (activities: IActivity[]) => {
-  activities.forEach(({ mainId, groupId: _id }, index) => {
-    api.post("/activity/updateposition", {
-      _id, mainId, newPosition: index
-    })
-  });
+  try {
+    activities.forEach(({ mainId, groupId: _id }, index) => {
+      api.post("/activity/updateposition", {
+        _id, mainId, newPosition: index
+      })
+    });
+  } catch (error) {
+    throw error;
+  };
 };
 
 export const reorder = (list: any, startIndex: number, endIndex: number) => {

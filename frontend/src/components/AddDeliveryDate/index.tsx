@@ -12,15 +12,19 @@ const AddDeliveryDate: React.FC<IAddDeliveryDate> = (props) => {
   } = props;
 
   const addDeliveryData = (date: string) => {
-    api.post(`/activity/delivery`, {
-      mainId,
-      _id: groupId,
-      date,
-    })
-      .then(() => inResearch
-        ? getSearchData && getSearchData()
-        : fetchData && fetchData()
-      );
+    try {
+      api.post(`/activity/delivery`, {
+        mainId,
+        _id: groupId,
+        date,
+      })
+        .then(() => inResearch
+          ? getSearchData && getSearchData()
+          : fetchData && fetchData()
+        );
+    } catch (error) {
+      throw error;
+    };
   };
 
   return (

@@ -14,13 +14,17 @@ const CreateGroup: React.FC<ICreateGroup> = (props) => {
   const [description, setDescription] = useState(String);
 
   const handleEnterInput = () => {
-    updateGroupPosition()
-      .then(() => {
-        api.post("/group", { title: description, groupPosition: position })
-          .then(() => setInputVisible(false))
-          .then(() => setDescription(""))
-          .then(() => fetchData && fetchData());
-      })
+    try {
+      updateGroupPosition()
+        .then(() => {
+          api.post("/group", { title: description, groupPosition: position })
+            .then(() => setInputVisible(false))
+            .then(() => setDescription(""))
+            .then(() => fetchData && fetchData());
+        });
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (
