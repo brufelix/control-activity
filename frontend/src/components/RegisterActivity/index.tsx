@@ -51,6 +51,7 @@ const RegisterActivity: React.FC<IRegisterActivity> = (props) => {
             </Button>,
               <Button
                 key={1}
+                disabled={!description.trim()}
                 onClick={() => registerActivity()}
                 type="primary"
               >
