@@ -11,7 +11,9 @@ import {
 import { useCount } from "../../hooks/count";
 import { useSearchResult } from "../../hooks/searchResult";
 import { useSearchDescription } from "../../hooks/searchDescription";
-import { move, reorder, openNotification } from "../../functions";
+import { move } from "../../functions/move";
+import { reorder } from "../../functions/reorder";
+import { openNotification } from "../../functions/openNotification";
 import { compareDate } from "../../utils";
 import { IActivity, IGroup } from "../../interfaces";
 import CreateGroup from "../CreateGroup";

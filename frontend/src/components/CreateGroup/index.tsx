@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Input } from "antd";
 import { PlusCircleFilled } from "@ant-design/icons";
 
-import { updateGroupPosition } from "../../functions";
+import { updateGroupPosition } from "../../functions/updateGroupPosition";
 import { ICreateGroup } from "../../interfaces";
 import api from "../../service";
 
