@@ -57,6 +57,11 @@ export interface IUseCount {
   setCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
+export interface IUseAuth {
+  isAuth: boolean;
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 export interface IUseSearchResult {
   resultSearch: IGroup[];
   setResultSearch: React.Dispatch<React.SetStateAction<IGroup[]>>;
