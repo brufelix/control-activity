@@ -80,14 +80,16 @@ const Card: React.FC<ICard> = (props) => {
                 type="primary"
               >
                 Salvar
-            </Button>
+              </Button>
             ]}
             width={400}
           >
             <Row>
               <TextArea
                 placeholder="Nova descrição da atividade..."
-                onPressEnter={() => handleEnterInputCard()}
+                onPressEnter={description.trim()
+                  ? () => handleEnterInputCard()
+                  : null}
                 onChange={(event) => setDescription(event.target.value)}
                 value={description}
                 style={{
