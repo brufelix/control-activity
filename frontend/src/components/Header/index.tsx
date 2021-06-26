@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from "react-router-dom";
 import { Layout, Row, Col, Avatar, Dropdown, Menu, Typography } from 'antd';
 
 import "./index.css";
@@ -6,19 +7,35 @@ import "./index.css";
 const styleCol = { height: "100%" };
 
 const Header: React.FC = () => {
+  const [user, setUser] = useState<{ valid: boolean, username: string }>({ valid: false, username: "?" });
 
+  const history = useHistory();
   const { Header } = Layout;
   const { Text } = Typography;
+
+  const handleSignout = () => {
+    localStorage.removeItem("@isAutenticate");
+    history.push("/login");
+  }
 
   const menu = (
     <Menu>
       <Menu.Item>
-        <a href="/">
+        <a
+          href="/login"
+          onClick={() => handleSignout()}
+        >
           Sair
         </a>
       </Menu.Item>
     </Menu>
   );
+
+  useEffect(() => {
+    let user = JSON.parse(localStorage.getItem("@isAutenticate"));
+
+    setUser(user);
+  }, [])
 
   return (
     <Header
@@ -57,7 +74,11 @@ const Header: React.FC = () => {
               }}
               size="large"
             >
-              Bruno
+              {user
+                ? user.valid
+                  ? user.username
+                  : "?"
+                : "?"}
             </Avatar>
           </Dropdown>
         </Col>
