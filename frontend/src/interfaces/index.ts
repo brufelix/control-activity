@@ -71,3 +71,8 @@ export interface IUserSearchDesc {
   currentResearch: string;
   setCurrentResearch: React.Dispatch<React.SetStateAction<string>>;
 };
+
+export interface IModalResgiter {
+  visible: boolean;
+  onCancel(): void
+};
