@@ -74,5 +74,14 @@ export interface IUserSearchDesc {
 
 export interface IModalResgiter {
   visible: boolean;
-  onCancel(): void
+  onCancel(): void;
 };
+
+export interface IResponseAuth {
+  authedicated: boolean
+}
+
+export interface IResponseResgisterUser {
+  created: boolean,
+  message: string,
+}

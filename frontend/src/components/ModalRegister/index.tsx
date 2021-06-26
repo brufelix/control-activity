@@ -1,7 +1,27 @@
 import React, { useState } from 'react';
-import { Modal, Row, Col, Form, Input, Button } from "antd";
+import { Modal, Row, Col, Form, Input, Button, notification } from "antd";
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { IModalResgiter } from "../../interfaces";
+
+import api from '../../service';
+import { IModalResgiter, IResponseResgisterUser } from "../../interfaces";
+
+const openNotification = (msg: string, des: string, typeNotification: string) => {
+  if (typeNotification === "success") {
+    notification['success']({
+      message: msg,
+      description: des,
+      placement: "topRight",
+      duration: 3.0,
+    })
+  } else {
+    notification['warning']({
+      message: msg,
+      description: des,
+      placement: "topRight",
+      duration: 3.0,
+    })
+  }
+};
 
 const ModalRegister: React.FC<IModalResgiter> = (props) => {
 
@@ -13,9 +33,21 @@ const ModalRegister: React.FC<IModalResgiter> = (props) => {
 
   const onFinish = () => {
     if (password.trim() === confirmPassword.trim()) {
-      const data = { username, password, confirmPassword, };
-      console.log(data);
-    };
+      const data = { username, password };
+      api.post<IResponseResgisterUser>("/user/create", data)
+        .then(res => {
+          if (res.status === 200 && res.data.created) {
+            openNotification("Cadastro realizado", res.data.message, "success");
+            onCancel();
+          } else if (res.data.message === "user_already_exists") {
+            openNotification("Erro ao criar usuário :/", "Usuário já existe.", "warning");
+          } else {
+            openNotification("Erro :|", "Contate o suporte.", "warning");
+          }
+        })
+    } else {
+      openNotification("Verifique a senha -_-", "As senhas não são iguais", "warning");
+    }
   };
 
   return (
