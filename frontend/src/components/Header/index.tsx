@@ -1,39 +1,24 @@
-import React, { useState } from 'react';
-import { Layout, Input, Badge, Row, Popover, } from 'antd';
-import { NotificationOutlined } from "@ant-design/icons";
+import React from 'react';
+import { Layout, Row, Col, Avatar, Dropdown, Menu, Typography } from 'antd';
 
-import { useCount } from "../../hooks/count";
-import { useSearchResult } from "../../hooks/searchResult";
-import { useSearchDescription } from "../../hooks/searchDescription";
-import { IGroup } from "../../interfaces";
-import api from '../../service';
+import "./index.css";
+
+const styleCol = { height: "100%" };
 
 const Header: React.FC = () => {
 
-  const { count } = useCount();
-  const { setResultSearch } = useSearchResult();
-  const { setCurrentResearch } = useSearchDescription();
   const { Header } = Layout;
-  const { Search } = Input;
+  const { Text } = Typography;
 
-  const [search, setSearch] = useState("");
-
-  const content = (
-    <div>
-      <p>Total de atividades atrasadas: {count}</p>
-    </div>
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a href="/">
+          Sair
+        </a>
+      </Menu.Item>
+    </Menu>
   );
-
-  const handleSearch = (search: string) => {
-    setCurrentResearch(search);
-    try {
-      api.post<IGroup[]>("/activity/search", {
-        search
-      }).then(res => setResultSearch(res.data));
-    } catch (error) {
-      throw error;
-    };
-  };
 
   return (
     <Header
@@ -45,38 +30,37 @@ const Header: React.FC = () => {
       <Row
         justify="space-between"
         align="middle"
-        style={{
-          height: "100%",
-        }}
+        gutter={[0, 0]}
+        style={{ height: "100%", }}
       >
-        <Search
-          style={{ maxWidth: "300px", }}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onSearch={(value) => handleSearch(value)}
-        />
-        <Row
-          style={{ height: "100%", }}
-          justify="center"
-          align="middle"
+        <Col
+          style={styleCol}
         >
-          <Popover
-            trigger={["hover"]}
-            content={content}
-            placement="left"
+          <Text
+            className="title-header"
+            style={{ color: "white", }}
           >
-            <NotificationOutlined
+            Controle de <span>Atividades</span>
+          </Text>
+        </Col>
+        <Col
+          style={styleCol}
+        >
+          <Dropdown
+            overlay={menu}
+            placement="bottomCenter"
+          >
+            <Avatar
               style={{
-                color: "white",
-                fontSize: "16px",
-                marginRight: "10px",
+                backgroundColor: '#7265e6',
+                verticalAlign: 'middle'
               }}
-            />
-            <Badge
-              count={count}
-            />
-          </Popover>
-        </Row>
+              size="large"
+            >
+              Bruno
+            </Avatar>
+          </Dropdown>
+        </Col>
       </Row>
     </Header>
   );

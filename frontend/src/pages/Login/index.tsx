@@ -28,7 +28,7 @@ const NormalLoginForm = () => {
             >
                 <Form.Item
                     name="username"
-                    rules={[{ required: true, message: 'Please input your Username!' }]}
+                    rules={[{ required: true, message: 'Por favor, insira seu username!' }]}
                 >
                     <Input
                         prefix={<UserOutlined className="site-form-item-icon" />}
@@ -37,7 +37,7 @@ const NormalLoginForm = () => {
                 </Form.Item>
                 <Form.Item
                     name="password"
-                    rules={[{ required: true, message: 'Please input your Password!' }]}
+                    rules={[{ required: true, message: 'Por favor, insira sua senha!' }]}
                 >
                     <Input
                         prefix={<LockOutlined className="site-form-item-icon" />}
@@ -70,7 +70,7 @@ const NormalLoginForm = () => {
                                 type="default"
                                 style={{ width: "100%" }}
                             >
-                                registra-se agora
+                                Registra-se agora
                             </Button>
                         </Col>
                     </Row>

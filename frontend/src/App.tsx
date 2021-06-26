@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { Layout, ConfigProvider } from 'antd';
-import locale from 'antd/lib/locale/pt_BR';
-import 'moment/locale/pt-br';
+import { Layout, ConfigProvider } from "antd";
+import locale from "antd/lib/locale/pt_BR";
+import "moment/locale/pt-br";
 
 import Header from "./components/Header";
 import Route from "./routes";
@@ -11,13 +11,11 @@ import CountProvider from "./hooks/count";
 import SearchResultProvider from "./hooks/searchResult";
 import SearchDescriptionProvider from "./hooks/searchDescription";
 import AuthProvider from "./hooks/auth";
-import { useAuth } from "./hooks/auth";
-import './App.css';
+import "./App.css";
 
 function App() {
 
   const { Content } = Layout;
-  const { isAuth } = useAuth();
 
   return (
     <Router>
