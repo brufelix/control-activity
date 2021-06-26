@@ -14,6 +14,7 @@ import {
   updatePositionAct,
   deleteGro,
   updatePositionGro,
+  registerUser
 } from "../controllers";
 
 export default (app: Express) => {
@@ -30,4 +31,5 @@ export default (app: Express) => {
   app.post("/api/group/delete", deleteGro);
   app.post("/api/activity/updateposition", updatePositionAct);
   app.post("/api/group/updateposition", updatePositionGro);
+  app.post("/api/user/create", registerUser);
 };

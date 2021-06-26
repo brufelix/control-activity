@@ -11,3 +11,4 @@ export { default as searchAct } from "./searchActivity";
 export { default as updatePositionAct } from "./updatePositionActivity";
 export { default as deleteGro } from "./deleteGroup";
 export { default as updatePositionGro } from "./updatePositionGroup";
+export { default as registerUser } from "./RegisterUser";
