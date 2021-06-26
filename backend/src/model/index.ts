@@ -1,7 +1,8 @@
 import { Schema, model } from "mongoose";
 import {
   IActivity as IActivityModelInterface,
-  IGroup as IGroupModelInterface
+  IGroup as IGroupModelInterface,
+  IUser,
 } from "../interface";
 
 const schemaActivity = new Schema({
@@ -75,6 +76,6 @@ const SchemaUser = new Schema({
 const ModelActivity = model<IActivityModelInterface>("activity", schemaActivity);
 const ModelGroup = model<IGroupModelInterface>("groupact", SchemaGroup);
 const ModelProject = model<IGroupModelInterface>("project", SchemaProject);
-const ModelUser = model<IGroupModelInterface>("user", SchemaUser);
+const ModelUser = model<IUser>("user", SchemaUser);
 
 export { ModelActivity, ModelGroup, ModelProject, ModelUser };

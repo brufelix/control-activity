@@ -13,3 +13,8 @@ export interface IGroup extends Document {
   title?: String;
   activities?: IActivity[];
 };
+
+export interface IUser extends Document {
+  username?: string;
+  password?: string;
+};
