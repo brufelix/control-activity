@@ -1,5 +1,8 @@
 #normal_login.ant-form.ant-form-horizontal.login-form {
     max-width: 300px;
+    padding: 15px;
+    box-shadow: 1px 3px 10px rgb(0 0 0 / 10%);
+    opacity: 1;
 }
 
 #normal-login .login-form-forgot {

@@ -78,7 +78,7 @@ export interface IModalResgiter {
 };
 
 export interface IResponseAuth {
-  authedicated: boolean
+  valid: boolean
 }
 
 export interface IResponseResgisterUser {

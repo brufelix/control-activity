@@ -10,7 +10,7 @@ import "./index.css";
 
 const openNotification = () => {
   notification.warning({
-    message: `Atividades atrasadas :(`,
+    message: `Erro na autenticação`,
     description: `Usuário ou senha inválido`,
     placement: "topRight",
     duration: 3.0,
@@ -26,11 +26,12 @@ const NormalLoginForm = () => {
 
   const onFinish = (values: { username: string, password: string }) => {
     const { username, password } = values;
-    api.post<IResponseAuth>("/authetication", { username, password })
+    api.post<IResponseAuth>("/user/auth", { username, password })
       .then(res => {
-        if (res.status === 200 && res.data && res.data.authedicated) {
-          history.push("/home");
+        if (res.status === 200 && res.data && res.data.valid) {
           localStorage.setItem("@isAutenticate", JSON.stringify(res.data));
+          history.push("/home");
+          history.go(0);
         } else {
           openNotification();
         }
