@@ -3,6 +3,7 @@ import {
   IActivity as IActivityModelInterface,
   IGroup as IGroupModelInterface,
   IUser,
+  IProject
 } from "../interface";
 
 const schemaActivity = new Schema({
@@ -55,10 +56,6 @@ const SchemaProject = new Schema({
   title: String,
   groups: [SchemaGroup],
   users: [String],
-  position: {
-    type: String,
-    required: false,
-  }
 });
 
 const SchemaUser = new Schema({
@@ -75,7 +72,7 @@ const SchemaUser = new Schema({
 
 const ModelActivity = model<IActivityModelInterface>("activity", schemaActivity);
 const ModelGroup = model<IGroupModelInterface>("groupact", SchemaGroup);
-const ModelProject = model<IGroupModelInterface>("project", SchemaProject);
+const ModelProject = model<IProject>("project", SchemaProject);
 const ModelUser = model<IUser>("user", SchemaUser);
 
 export { ModelActivity, ModelGroup, ModelProject, ModelUser };

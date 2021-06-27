@@ -16,6 +16,7 @@ import {
   updatePositionGro,
   registerUser,
   authetication,
+  listProject,
 } from "../controllers";
 
 export default (app: Express) => {
@@ -34,4 +35,5 @@ export default (app: Express) => {
   app.post("/api/group/updateposition", updatePositionGro);
   app.post("/api/user/create", registerUser);
   app.post("/api/user/auth", authetication);
+  app.post("/api/project", listProject);
 };

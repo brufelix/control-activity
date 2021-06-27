@@ -14,6 +14,13 @@ export interface IGroup extends Document {
   activities?: IActivity[];
 };
 
+export interface IProject extends Document {
+  title?: String;
+  groups?: IGroup[];
+  users?: string[];
+};
+
+
 export interface IUser extends Document {
   username?: string;
   password?: string;

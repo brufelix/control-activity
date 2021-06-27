@@ -13,3 +13,4 @@ export { default as deleteGro } from "./deleteGroup";
 export { default as updatePositionGro } from "./updatePositionGroup";
 export { default as registerUser } from "./registerUser";
 export { default as authetication } from "./authetication";
+export { default as listProject } from "./listProject";
