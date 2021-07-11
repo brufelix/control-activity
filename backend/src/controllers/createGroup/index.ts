@@ -1,11 +1,11 @@
 import { Response, Request } from "express";
 import crypto from "crypto";
 
-import { ModelGroup, ModelActivity } from "../../model";
+import { ModelGroup, ModelActivity, ModelProject } from "../../model";
 
 export default async (req: Request, res: Response) => {
   try {
-    const { title, groupPosition } = req.body;
+    const { title, groupPosition, idProject } = req.body;
     const now = new Date();
     const mainId = crypto.randomBytes(16).toString("hex");
 
@@ -13,6 +13,7 @@ export default async (req: Request, res: Response) => {
       title,
       activities: [],
       position: groupPosition,
+      idProject,
     });
 
     await newGroup.save();
@@ -41,14 +42,12 @@ export default async (req: Request, res: Response) => {
       }
     );
 
-    try {
-      res.status(200).json({
-        code: 200,
-        message: `Group created`
-      });
-    } catch (error) {
-      throw new Error(error)
-    };
+    await ModelProject.updateOne(
+      { _id: idProject },
+      { $push: { groups: newGroup } },
+    )
+
+    res.status(200).json({ code: 200, message: `Group created` });
 
   } catch (error) {
     res.status(404).json({
