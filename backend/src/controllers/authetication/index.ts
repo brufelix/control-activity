@@ -16,8 +16,9 @@ export default async (req: Request, res: Response) => {
 
         if (user) {
             const valid: boolean = bcrypt.compareSync(password, user.password)
+
             if (valid) {
-                res.status(200).send({ valid, username: user.username })
+                res.status(200).send({ valid, user })
             }
         } else {
             res.status(200).send({ valid: false, message: "not_autorized" });
