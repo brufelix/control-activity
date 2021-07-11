@@ -40,6 +40,6 @@ export default (app: Express) => {
   app.post("/api/user/create", registerUser);
   app.post("/api/user/auth", authetication);
   // project
-  app.post("/api/project", listProject);
+  app.post("/api/projects", listProject);
   app.post("/api/project/create", createProject);
 };
