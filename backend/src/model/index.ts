@@ -53,6 +53,7 @@ const SchemaGroup = new Schema({
 });
 
 const SchemaProject = new Schema({
+  maintainer: String,
   title: String,
   groups: [SchemaGroup],
   users: [String],
@@ -67,12 +68,12 @@ const SchemaUser = new Schema({
     type: String,
     required: true
   },
-  projects: [String],
+  projects: [SchemaProject],
 });
 
-const ModelActivity = model<IActivityModelInterface>("activity", schemaActivity);
-const ModelGroup = model<IGroupModelInterface>("groupact", SchemaGroup);
-const ModelProject = model<IProject>("project", SchemaProject);
 const ModelUser = model<IUser>("user", SchemaUser);
+const ModelProject = model<IProject>("project", SchemaProject);
+const ModelGroup = model<IGroupModelInterface>("groupact", SchemaGroup);
+const ModelActivity = model<IActivityModelInterface>("activity", schemaActivity);
 
 export { ModelActivity, ModelGroup, ModelProject, ModelUser };

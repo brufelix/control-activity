@@ -22,7 +22,7 @@ export default async (req: Request, res: Response) => {
                 });
 
                 newUser.save();
-                res.status(200).send({ created: true, message: "Usuário criado com sucesso." });
+                res.status(200).send({ created: true, message: "user_created_successfully." });
             }
         }).catch(error => { throw error });
     } catch (error) {
