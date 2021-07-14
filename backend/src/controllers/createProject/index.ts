@@ -18,7 +18,7 @@ export default async (req: Request, res: Response) => {
         if (err)
           return
 
-        res.status(200).json({ code: 200, idProject: newProject._id, message: `project_created` });
+        res.status(200).json({ code: 200, projectId: newProject._id, message: `project_created` });
       });
 
   } catch (error) {

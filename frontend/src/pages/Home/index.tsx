@@ -1,27 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+
+import ProjectSelectModal from "../../components/SelectProjectModal";
 import DragAndDrop from "../../components/DragAndDrop";
 import SubHeader from "../../components/SubHeader";
+import { ILocalStorageUser } from "../../interfaces";
 
 const Home: React.FC = () => {
 
-    const history = useHistory();
+  const history = useHistory();
+  const [visible, setVisible] = useState(false);
 
-    useEffect(() => {
-        const isAuth = JSON.parse(localStorage.getItem("@isAutenticate"));
+  const closeModal = () => {
+    setVisible(false);
+  };
 
-        console.log(isAuth);
-        if (!isAuth || !isAuth.valid)
-            history.push("/not_authorized");
-        // eslint-disable-next-line
-    }, []);
+  useEffect(() => {
+    const isAuth: ILocalStorageUser = JSON.parse(localStorage.getItem("@isAutenticate"));
 
-    return (
-        <>
-            <SubHeader />
-            <DragAndDrop />
-        </>
-    );
+    if (!isAuth || !isAuth.valid)
+      history.push("/not_authorized");
+    // eslint-disable-next-line
+  }, []);
+
+  return (
+    <>
+      <ProjectSelectModal
+        visible={visible}
+        onCancel={() => closeModal()}
+        setVisible={(boolean: boolean) => setVisible(boolean)}
+      />
+      <SubHeader />
+      <DragAndDrop />
+    </>
+  );
 }
 
 export default Home;

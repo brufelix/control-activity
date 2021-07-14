@@ -1,3 +1,27 @@
+export interface IUser {
+  username: string,
+  projects: IProject[]
+};
+
+export interface IProject {
+  title: string,
+  maintainer: string,
+  users: [string],
+  groups: [],
+}
+
+export interface IGroup {
+  _id: string;
+  title: string;
+  activities: IActivity[];
+  position: number;
+};
+
+export interface ILocalStorageUser {
+  valid: boolean,
+  user: IUser,
+}
+
 export interface ICard {
   mainId: string;
   groupId: string;
@@ -27,13 +51,6 @@ export interface IAddDeliveryDate {
   setVisible?(boolean: boolean): void;
   getSearchData?(): void;
   fetchData?(): void;
-};
-
-export interface IGroup {
-  _id: string;
-  title: string;
-  activities: IActivity[];
-  position: number;
 };
 
 export interface ICreateGroup {
@@ -77,8 +94,15 @@ export interface IModalResgiter {
   onCancel(): void;
 };
 
+export interface IModalSelectProject {
+  visible: boolean;
+  onCancel?(): void;
+  setVisible?(boolean: boolean): void;
+};
+
 export interface IResponseAuth {
-  valid: boolean
+  valid: boolean,
+  user: IUser
 }
 
 export interface IResponseResgisterUser {

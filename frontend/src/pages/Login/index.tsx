@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { Form, Input, Button, Row, Col, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -37,6 +37,13 @@ const NormalLoginForm = () => {
         }
       });
   };
+
+  useEffect(() => {
+    const auth = JSON.parse(localStorage.getItem("@isAutenticate")) || false;
+
+    if (auth && auth.valid) history.push("/home");
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <>

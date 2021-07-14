@@ -7,7 +7,7 @@ const NotAuthorized: React.FC = () => {
             status="403"
             title="403"
             subTitle="Desculpe, você não está autorizado a acessar esta página."
-            extra={<Button type="primary" href="/login">Voltar</Button>}
+            extra={<Button type="primary" href="/">Voltar</Button>}
         />
     );
 }
