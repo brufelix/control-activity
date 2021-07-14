@@ -6,7 +6,7 @@ export default async (req: Request, res: Response) => {
   const { projectId } = req.body;
 
   try {
-    ModelGroup.find({ idProject: projectId }, (err, result) => {
+    ModelGroup.find({ projectId }, (err, result) => {
       if (err)
         return
 
