@@ -31,7 +31,7 @@ export default (app: Express) => {
   app.post("/api/activity/updateposition", updatePositionAct);
   // group
   app.post("/api/group", createGro);
-  app.get("/api/group", listGro);
+  app.post("/api/group/list", listGro);
   app.post("/api/group/update", updateGro);
   app.post("/api/groupname", nameGroup);
   app.post("/api/group/delete", deleteGro);

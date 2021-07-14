@@ -5,7 +5,7 @@ import { ModelGroup, ModelActivity, ModelProject } from "../../model";
 
 export default async (req: Request, res: Response) => {
   try {
-    const { title, groupPosition, idProject } = req.body;
+    const { title, groupPosition, projectId } = req.body;
     const now = new Date();
     const mainId = crypto.randomBytes(16).toString("hex");
 
@@ -13,7 +13,7 @@ export default async (req: Request, res: Response) => {
       title,
       activities: [],
       position: groupPosition,
-      idProject,
+      projectId,
     });
 
     await newGroup.save();
@@ -43,8 +43,8 @@ export default async (req: Request, res: Response) => {
     );
 
     await ModelProject.updateOne(
-      { _id: idProject },
-      { $push: { groups: newGroup } },
+      { _id: projectId },
+      { $push: { groups: newGroup._id } },
     )
 
     res.status(200).json({ code: 200, message: `Group created` });

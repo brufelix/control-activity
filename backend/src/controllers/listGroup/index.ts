@@ -3,12 +3,12 @@ import { ModelGroup } from "../../model";
 
 export default async (req: Request, res: Response) => {
 
-  const { idProject } = req.body;
+  const { projectId } = req.body;
 
   try {
-    ModelGroup.find({ idProject }, (err, result) => {
+    ModelGroup.find({ idProject: projectId }, (err, result) => {
       if (err)
-        res.status(404).send();
+        return
 
       res.status(200).send(result);
     });

@@ -9,7 +9,7 @@ export default (req: Request, res: Response) => {
   const newId = crypto.randomBytes(16).toString("hex");
   const id = mainId ? mainId : newId;
   const date = createAt ? createAt : now;
-  const hasDone = done ? done : false; 
+  const hasDone = done ? done : false;
 
   try {
     const newActivity = new ModelActivity({
@@ -29,25 +29,12 @@ export default (req: Request, res: Response) => {
       { $push: { activities: newActivity } },
       null,
       (err, _) => {
-        if (err) {
-          res.status(500).send({
-            error: err
-          });
-        };
-        try {
-          res.status(200).json({
-            code: 200,
-            message: `activity created`
-          });
-        } catch (error) {
-          throw new Error(error)
-        };
+        if (err)
+          return;
+        res.status(200).send({ code: 200, message: `activity created` });
       }
     );
   } catch (error) {
-    res.status(500).json({
-      code: 500,
-      message: error
-    });
+    console.log(error);
   };
 };

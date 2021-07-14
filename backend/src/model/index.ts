@@ -42,7 +42,7 @@ const schemaActivity = new Schema({
 const SchemaGroup = new Schema({
   title: String,
   activities: [schemaActivity],
-  idProject: {
+  projectId: {
     type: String,
     required: true,
   },
@@ -50,13 +50,6 @@ const SchemaGroup = new Schema({
     type: String,
     required: false,
   }
-});
-
-const SchemaProject = new Schema({
-  maintainer: String,
-  title: String,
-  groups: [SchemaGroup],
-  users: [String],
 });
 
 const SchemaUser = new Schema({
@@ -68,7 +61,17 @@ const SchemaUser = new Schema({
     type: String,
     required: true
   },
-  projects: [SchemaProject],
+  projects: {
+    type: [String],
+    default: [],
+  }
+});
+
+const SchemaProject = new Schema({
+  maintainer: String,
+  title: String,
+  groups: [String],
+  users: [String],
 });
 
 const ModelUser = model<IUser>("user", SchemaUser);
