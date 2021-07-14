@@ -101,21 +101,25 @@ const DrogAndDrop: React.FC = () => {
   };
 
   const fetchData = async () => {
-    try {
-      await api.get<IGroup[]>("/group")
-        .then((res) => {
-          const { data } = res;
-          setGroups(
-            data
-              .sort((a, b) => a.position - b.position)
-              .map(group => group.activities
+    const projectId = localStorage.getItem("@selected_project") || false;
+
+    if (projectId) {
+      try {
+        await api.post<IGroup[]>("/group/list", { projectId })
+          .then((res) => {
+            const { data } = res;
+            setGroups(
+              data
                 .sort((a, b) => a.position - b.position)
-              )
-          );
-        }).then(() => setInResearch(false));
-    } catch (error) {
-      throw error;
-    };
+                .map(group => group.activities
+                  .sort((a, b) => a.position - b.position)
+                )
+            );
+          }).then(() => setInResearch(false));
+      } catch (error) {
+        throw error;
+      };
+    }
   };
 
   useEffect(() => {

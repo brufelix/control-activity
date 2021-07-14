@@ -7,7 +7,7 @@ const NotAuthorized: React.FC = () => {
             status="404"
             title="404"
             subTitle="Desculpe, esta página não existe."
-            extra={<Button type="primary" href="/login">Voltar</Button>}
+            extra={<Button type="primary" href="/">Voltar</Button>}
         />
     );
 }

@@ -15,14 +15,14 @@ const Header: React.FC = () => {
 
   const handleSignout = () => {
     localStorage.removeItem("@isAutenticate");
-    history.push("/login");
+    localStorage.removeItem("@selected_project");
   }
 
   const menu = (
     <Menu>
       <Menu.Item>
         <a
-          href="/login"
+          href="/"
           onClick={() => handleSignout()}
         >
           Sair
@@ -32,7 +32,7 @@ const Header: React.FC = () => {
   );
 
   useEffect(() => {
-    let user = JSON.parse(localStorage.getItem("@isAutenticate"));
+    let { user } = JSON.parse(localStorage.getItem("@isAutenticate"));
 
     setUser(user);
   }, [])
@@ -55,7 +55,8 @@ const Header: React.FC = () => {
         >
           <Text
             className="title-header"
-            style={{ color: "white", }}
+            style={{ color: "white", cursor: "pointer" }}
+            onClick={() => { history.push("/"); history.go(0); }}
           >
             Controle de <span>Atividades</span>
           </Text>
@@ -75,9 +76,7 @@ const Header: React.FC = () => {
               size="large"
             >
               {user
-                ? user.valid
-                  ? user.username
-                  : "?"
+                ? user.username.split("")[0].toLocaleUpperCase()
                 : "?"}
             </Avatar>
           </Dropdown>
