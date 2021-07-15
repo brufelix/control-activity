@@ -16,9 +16,6 @@ export default async (req: Request, res: Response) => {
           res.status(200).send(result);
       })
   } catch (error) {
-    res.status(500).send({
-      code: 500,
-      message: error
-    });
+    console.log(error);
   }
 };
