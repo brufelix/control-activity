@@ -18,7 +18,8 @@ import {
   authetication,
   listProject,
   createProject,
-  addUserProject
+  addUserProject,
+  listProjectUser
 } from "../controllers";
 
 export default (app: Express) => {
@@ -44,4 +45,5 @@ export default (app: Express) => {
   app.post("/api/projects", listProject);
   app.post("/api/project/create", createProject);
   app.post("/api/project/add_user", addUserProject);
+  app.post("/api/project/list_user", listProjectUser);
 };
