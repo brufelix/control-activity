@@ -94,8 +94,8 @@ export interface IModalResgiter {
   onCancel(): void;
 };
 
-export interface IModalSelectProject {
-  visible: boolean;
+export interface IModalCreateProject {
+  visible?: boolean;
   onCancel?(): void;
   setVisible?(boolean: boolean): void;
 };

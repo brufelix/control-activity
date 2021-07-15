@@ -32,9 +32,13 @@ const Header: React.FC = () => {
   );
 
   useEffect(() => {
-    let { user } = JSON.parse(localStorage.getItem("@isAutenticate"));
+    let data = JSON.parse(localStorage.getItem("@isAutenticate"));
 
-    setUser(user);
+    if (data) {
+      const { user } = data;
+      setUser(user);
+    }
+
   }, [])
 
   return (

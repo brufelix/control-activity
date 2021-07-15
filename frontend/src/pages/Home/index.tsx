@@ -1,19 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import ProjectSelectModal from "../../components/SelectProjectModal";
-import DragAndDrop from "../../components/DragAndDrop";
 import SubHeader from "../../components/SubHeader";
+import DragAndDrop from "../../components/DragAndDrop";
+import ProjectSelectModal from "../../components/SelectProjectModal";
+import ProjectCreateModal from "../../components/ProjectCreateModal";
 import { ILocalStorageUser } from "../../interfaces";
+import api from "../../service";
 
 const Home: React.FC = () => {
 
   const history = useHistory();
-  const [visible, setVisible] = useState(false);
 
-  const closeModal = () => {
-    setVisible(false);
+  const [numberProjects, setNumberProjects] = useState([]);
+
+  const renderModalSelector = () => {
+    const modal = numberProjects.length
+      ? <ProjectSelectModal />
+      : <ProjectCreateModal />;
+
+    return modal;
   };
+
+  useEffect(() => {
+    const { user: localUser }: ILocalStorageUser = JSON.parse(localStorage.getItem("@isAutenticate"));
+    
+    api.post("/projects", { username: localUser.username })
+      .then(({ data }) => setNumberProjects(data))
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     const isAuth: ILocalStorageUser = JSON.parse(localStorage.getItem("@isAutenticate"));
@@ -25,13 +40,9 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <ProjectSelectModal
-        visible={visible}
-        onCancel={() => closeModal()}
-        setVisible={(boolean: boolean) => setVisible(boolean)}
-      />
       <SubHeader />
       <DragAndDrop />
+      {renderModalSelector()}
     </>
   );
 }
