@@ -3,12 +3,13 @@ import { Row, Col, Input, Popover, Badge } from "antd";
 import { NotificationOutlined, PlusCircleOutlined, UsergroupAddOutlined } from "@ant-design/icons";
 
 import SelectProject from '../SelectProject';
-import ProjectCreateModal from '../ProjectCreateModal';
+import ProjectNewModal from '../ProjectNewModal';
 import { useSearchResult } from "../../hooks/searchResult";
 import { useSearchDescription } from "../../hooks/searchDescription";
 import { useCount } from "../../hooks/count";
 import { IGroup } from "../../interfaces";
 import api from '../../service';
+import ModalUsers from '../ModalUsers';
 
 const iconStyle = { color: "black", fontSize: "16px", marginRight: "10px", cursor: "pointer", };
 
@@ -16,7 +17,8 @@ const SubHeader: React.FC = () => {
 
   const { count } = useCount();
   const [search, setSearch] = useState("");
-  const [visible, setVisible] = useState(false);
+  const [visibleCreateProject, setVisibleCreateProject] = useState(false);
+  const [visibleAddUsers, setVisibleAddUsers] = useState(false);
 
   const { setResultSearch } = useSearchResult();
   const { setCurrentResearch } = useSearchDescription();
@@ -42,14 +44,17 @@ const SubHeader: React.FC = () => {
   );
 
   const handleSearch = (search: string) => {
+    const projectId = localStorage.getItem("@selected_project");
     setCurrentResearch(search);
+
     try {
-      api.post<IGroup[]>("/activity/search", {
-        search
-      }).then(res => setResultSearch(res.data));
+      api.post<IGroup[]>("/activity/search",
+        { search, projectId })
+        .then(res => setResultSearch(res.data));
     } catch (error) {
       throw error;
     };
+
   };
 
   return (
@@ -88,14 +93,14 @@ const SubHeader: React.FC = () => {
               content={contentAddUser}
               placement="rightBottom"
             >
-              <UsergroupAddOutlined style={iconStyle} />
+              <UsergroupAddOutlined onClick={() => setVisibleAddUsers(true)} style={iconStyle} />
             </Popover>
             <Popover
               trigger={["hover"]}
               content={contentAddProject}
               placement="bottom"
             >
-              <PlusCircleOutlined onClick={() => setVisible(true)} style={iconStyle} />
+              <PlusCircleOutlined onClick={() => setVisibleCreateProject(true)} style={iconStyle} />
             </Popover>
             <Popover
               trigger={["hover"]}
@@ -113,9 +118,13 @@ const SubHeader: React.FC = () => {
           </Row>
         </Col>
       </Row>
-      <ProjectCreateModal
-        visible={visible}
-        setVisible={(boolean: boolean) => setVisible(boolean)}
+      <ProjectNewModal
+        visible={visibleCreateProject}
+        setVisible={(boolean: boolean) => setVisibleCreateProject(boolean)}
+      />
+      <ModalUsers
+        visible={visibleAddUsers}
+        setVisible={(boolean: boolean) => setVisibleAddUsers(boolean)}
       />
     </>
   );

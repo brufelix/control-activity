@@ -3,7 +3,7 @@ import { Modal, Button, notification, Input, Row, Col } from "antd";
 import { useHistory } from "react-router-dom";
 
 import api from '../../service';
-import { ILocalStorageUser, IModalCreateProject, IUser } from '../../interfaces';
+import { ILocalStorageUser, IModalNewProject, IUser } from '../../interfaces';
 
 const openNotification = () => {
   notification.warning({
@@ -14,14 +14,12 @@ const openNotification = () => {
   });
 };
 
-const ProjectCreateModal: React.FC<IModalCreateProject> = (props) => {
+const ProjectCreateModal: React.FC<IModalNewProject> = (props) => {
 
+  const { visible, setVisible } = props;
   const history = useHistory();
 
-  const { projectsNumbers } = props;
-
   const [user, setUser] = useState({} as IUser);
-  const [selectedProject, setSelectedProject] = useState(false);
   const [description, setDescription] = useState("");
 
   const handleClickCreate = () => {
@@ -33,6 +31,7 @@ const ProjectCreateModal: React.FC<IModalCreateProject> = (props) => {
 
             if (res.status === 200 && message === "project_created") {
               localStorage.setItem("@selected_project", res.data.projectId);
+              history.push("/home");
               history.go(0);
             }
           })
@@ -42,19 +41,13 @@ const ProjectCreateModal: React.FC<IModalCreateProject> = (props) => {
     }
   };
 
-  const title = (<h3 style={{ color: "gray", margin: 0 }} >Crie um projeto</h3>);
+  const title = (<h3 style={{ color: "gray", margin: 0 }} >Crie um novo projeto</h3>);
 
   const footerButton = [
     <Button key={1} type="primary" onClick={() => handleClickCreate()} >
       Criar
     </Button>
   ];
-
-  useEffect(() => {
-    const selected = localStorage.getItem("@selected_project") || false;
-
-    setSelectedProject(!!selected);
-  }, []);
 
   useEffect(() => {
     const { user: localUser }: ILocalStorageUser = JSON.parse(localStorage.getItem("@isAutenticate"));
@@ -66,21 +59,19 @@ const ProjectCreateModal: React.FC<IModalCreateProject> = (props) => {
   return (
     <>
       {
-        !(selectedProject) && (projectsNumbers === 0) && (
-          <Modal visible={true} title={title} footer={footerButton} centered >
-            <Row style={{ width: "100%", padding: "20px 0 0 0" }} >
+        <Modal visible={visible} title={title} onCancel={() => setVisible(false)} footer={footerButton} centered >
+          <Row style={{ width: "100%", padding: "20px 0 0 0" }} >
 
-              <Col span={24} style={{ marginTop: "10px", }} >
-                <Input
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Digite o título do projeto..."
-                  onPressEnter={() => handleClickCreate()}
-                />
-              </Col>
+            <Col span={24} style={{ marginTop: "10px", }} >
+              <Input
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Digite o título do projeto..."
+                onPressEnter={() => handleClickCreate()}
+              />
+            </Col>
 
-            </Row>
-          </Modal>
-        )
+          </Row>
+        </Modal>
       }
     </>
   );

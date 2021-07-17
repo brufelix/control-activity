@@ -16,10 +16,13 @@ const RegisterActivity: React.FC<IRegisterActivity> = (props) => {
   const [groupId, setGroupId] = useState(String);
 
   const registerActivity = () => {
+    const projectId = localStorage.getItem("@selected_project");
+    console.log(projectId);
     api.post("/activity", {
       groupId,
       description,
       position,
+      projectId,
     })
       .then(() => setVisible(false))
       .then(() => setDescription(""))

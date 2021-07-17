@@ -37,7 +37,7 @@ const ModalRegister: React.FC<IModalResgiter> = (props) => {
       api.post<IResponseResgisterUser>("/user/create", data)
         .then(res => {
           if (res.status === 200 && res.data.created) {
-            openNotification("Cadastro realizado", res.data.message, "success");
+            openNotification("Cadastro realizado", "Usuário criando com sucesso.", "success");
             onCancel();
           } else if (res.data.message === "user_already_exists") {
             openNotification("Erro ao criar usuário :/", "Usuário já existe.", "warning");

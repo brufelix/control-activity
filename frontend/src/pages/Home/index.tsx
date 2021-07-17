@@ -13,20 +13,22 @@ const Home: React.FC = () => {
   const history = useHistory();
 
   const [numberProjects, setNumberProjects] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const renderModalSelector = () => {
     const modal = numberProjects.length
       ? <ProjectSelectModal />
-      : <ProjectCreateModal />;
+      : <ProjectCreateModal projectsNumbers={numberProjects.length || 0} />;
 
     return modal;
   };
 
   useEffect(() => {
     const { user: localUser }: ILocalStorageUser = JSON.parse(localStorage.getItem("@isAutenticate"));
-    
+
     api.post("/projects", { username: localUser.username })
       .then(({ data }) => setNumberProjects(data))
+      .then(() => setShowModal(true));
     // eslint-disable-next-line
   }, []);
 
@@ -42,7 +44,7 @@ const Home: React.FC = () => {
     <>
       <SubHeader />
       <DragAndDrop />
-      {renderModalSelector()}
+      {showModal && renderModalSelector()}
     </>
   );
 }

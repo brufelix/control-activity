@@ -4,6 +4,7 @@ export interface IUser {
 };
 
 export interface IProject {
+  _id?: string,
   title: string,
   maintainer: string,
   users: [string],
@@ -79,6 +80,11 @@ export interface IUseAuth {
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+export interface ISelectedProject {
+  selectedProject: string;
+  setSelectedProject: React.Dispatch<React.SetStateAction<string>>;
+};
+
 export interface IUseSearchResult {
   resultSearch: IGroup[];
   setResultSearch: React.Dispatch<React.SetStateAction<IGroup[]>>;
@@ -98,6 +104,14 @@ export interface IModalCreateProject {
   visible?: boolean;
   onCancel?(): void;
   setVisible?(boolean: boolean): void;
+  projectsNumbers?: number
+};
+
+export interface IModalNewProject {
+  visible?: boolean;
+  onCancel?(): void;
+  setVisible?(boolean: boolean): void;
+  projectsNumbers?: number
 };
 
 export interface IResponseAuth {

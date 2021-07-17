@@ -8,12 +8,13 @@ import "./index.css";
 
 const SelectProject: React.FC = (props) => {
 
+  // eslint-disable-next-line
   const history = useHistory();
 
   const { Option } = Select;
 
   const [selectedProjectId, setSelectedProjectId] = useState("");
-  const [selectedProject, setSelectedProject] = useState(false);
+  const [projectIsSelected, setProjectIsSelected] = useState(false);
   const [projects, setProjects] = useState([]);
 
   const options = (
@@ -37,24 +38,45 @@ const SelectProject: React.FC = (props) => {
     setSelectedProjectId(value);
   };
 
+  const exist = (username: string, usernames: any[]) => {
+    let exist = false;
+
+    usernames.forEach(item => {
+      if (item.title === username)
+        exist = true;
+    })
+
+    return exist;
+  }
+
   useEffect(() => {
     const selected = localStorage.getItem("@selected_project") || false;
 
-    setSelectedProject(!!selected);
+    setProjectIsSelected(!!selected);
   }, []);
 
   useEffect(() => {
     const { user: localUser }: ILocalStorageUser = JSON.parse(localStorage.getItem("@isAutenticate"));
 
     api.post("/projects", { username: localUser.username })
-      .then(({ data }) => setProjects(data))
+      .then(({ data }) => {
+        const projects: any = [];
+
+        data && data.forEach((username: { _id: string, title: string }) => {
+          if (!exist(username.title, projects)) {
+            projects.push(username);
+          }
+        });
+
+        setProjects(projects);
+      });
     // eslint-disable-next-line
   }, []);
 
   return (
     <>
       {
-        !selectedProject && (
+        !projectIsSelected && (
           <Modal visible={true} title={title} footer={footerButton} centered >
             <Row style={{ width: "100%" }} >
               <Select

@@ -92,8 +92,11 @@ const DrogAndDrop: React.FC = () => {
   };
 
   const getSearchData = (search: string) => {
+    const projectId = localStorage.getItem("@selected_project");
+
     try {
-      api.post<IGroup[]>("/activity/search", { search })
+      api.post<IGroup[]>("/activity/search",
+        { search, projectId })
         .then(res => setResultSearch(res.data));
     } catch (error) {
       throw error;

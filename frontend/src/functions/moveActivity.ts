@@ -6,6 +6,8 @@ export const moveActivity = (
     targetGroup: string,
     position: number,
 ) => {
+    const projectId = localStorage.getItem("@selected_project");
+    console.log(projectId);
     try {
         api.post("/activity", {
             groupId: targetGroup,
@@ -15,6 +17,7 @@ export const moveActivity = (
             delivery: act.delivery,
             mainId: act.mainId,
             position,
+            projectId,
         });
 
         api.post("/activity/delete", {
