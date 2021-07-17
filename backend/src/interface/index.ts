@@ -24,4 +24,5 @@ export interface IProject extends Document {
 export interface IUser extends Document {
   username?: string;
   password?: string;
+  projects?: string[];
 };

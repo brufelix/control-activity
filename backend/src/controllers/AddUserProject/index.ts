@@ -6,29 +6,54 @@ export default async (req: Request, res: Response) => {
   try {
     const { username, projectId } = req.body;
 
-    const user = await ModelUser.find({ username }, (err, result) => {
-      if (err)
-        return;
+    const user = await ModelUser.findOne(
+      { username },
+      null, null,
+      (err, result) => {
+        if (err)
+          return;
 
-      return result;
-    });
+        return result;
+      }
+    );
 
-    if (user.length) {
+    const project: any = await ModelProject.findOne(
+      { _id: projectId },
+      null, null,
+      (err, result) => {
+        if (err)
+          return;
+
+        return result;
+      }
+    );
+
+    if (user && project) {
+      const { projects } = user;
+
+      projects.push(projectId);
+
       await ModelUser.updateOne(
         { username },
-        { $push: { projects: projectId } },
+        { $set: { projects: projects } },
         null,
         (err, _) => {
           if (err) res.json({ code: 501, message: `error_add_project` });
-        });
+        }
+      );
+
+      const { users } = project;
+
+      users.push(username);
 
       await ModelProject.updateOne(
         { _id: projectId },
-        { $push: { users: username } },
+        { $set: { users: users } },
         null,
         (err, _) => {
           if (err) res.json({ code: 501, message: `error_add_user` });
-        });
+        }
+      );
 
       res.status(200).json({ code: 200, message: `user_added` });
 
