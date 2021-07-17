@@ -24,24 +24,12 @@ const SelectProject: React.FC = () => {
     history.go(0);
   };
 
-  const exist = (username: string, usernames: any[]) => {
-    let exist = false;
-
-    usernames.forEach(item => {
-      if (item.title === username) {
-        exist = true;
-      }
-    })
-
-    return exist;
-  }
-
-  const updatedCurrentProject = (projects: IProject[]) => {
+  const updatedCurrentProject = (projects: IProject[] = []) => {
     const projectId = localStorage.getItem("@selected_project");
 
-    const selectedProject = projects.filter(project => project._id === projectId);
+    const selectedProject = projects.filter && projects.filter(project => project._id === projectId);
 
-    if (selectedProject.length)
+    if (selectedProject && selectedProject.length)
       setCurrentProject(selectedProject[0].title);
   };
 
@@ -49,16 +37,8 @@ const SelectProject: React.FC = () => {
     const { user: localUser }: ILocalStorageUser = JSON.parse(localStorage.getItem("@isAutenticate"));
 
     api.post("/projects", { username: localUser.username })
-      .then(({ data }) => {
-        updatedCurrentProject(data);
-
-        const projects: any = [];
-
-        data && data.forEach
-          && data.forEach((username: { _id: string, title: string }) => {
-            if (!exist(username.title, projects))
-              projects.push(username);
-          });
+      .then(({ data: projects }) => {
+        updatedCurrentProject(projects);
 
         setProjects(projects);
       })

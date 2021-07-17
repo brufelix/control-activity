@@ -50,9 +50,13 @@ const ProjectCreateModal: React.FC<IModalNewProject> = (props) => {
   ];
 
   useEffect(() => {
-    const { user: localUser }: ILocalStorageUser = JSON.parse(localStorage.getItem("@isAutenticate"));
+    const data = JSON.parse(localStorage.getItem("@isAutenticate"));
 
-    setUser(localUser);
+    if (data) {
+      const { user: localUser }: ILocalStorageUser = data;
+
+      setUser(localUser);
+    }
 
   }, []);
 

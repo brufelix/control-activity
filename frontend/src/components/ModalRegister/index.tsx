@@ -113,6 +113,10 @@ const ModalRegister: React.FC<IModalResgiter> = (props) => {
                 >
                   <Input
                     onChange={(e) => setUsername(e.target.value)}
+                    onPressEnter={() => {
+                      username.trim() && password.trim()
+                        && confirmPassword.trim() && onFinish()
+                    }}
                     prefix={<UserOutlined className="site-form-item-icon" />}
                     placeholder="Nome de Usuário"
                   />
@@ -123,6 +127,10 @@ const ModalRegister: React.FC<IModalResgiter> = (props) => {
                 >
                   <Input
                     onChange={(e) => setPassword(e.target.value)}
+                    onPressEnter={() => {
+                      username.trim() && password.trim()
+                        && confirmPassword.trim() && onFinish()
+                    }}
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
                     placeholder="Senha"
@@ -134,6 +142,10 @@ const ModalRegister: React.FC<IModalResgiter> = (props) => {
                 >
                   <Input
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    onPressEnter={() => {
+                      username.trim() && password.trim()
+                        && confirmPassword.trim() && onFinish()
+                    }}
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
                     placeholder="Confirme a Senha"
