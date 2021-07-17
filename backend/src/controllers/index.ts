@@ -17,3 +17,4 @@ export { default as listProject } from "./listProject";
 export { default as createProject } from "./createProject";
 export { default as addUserProject } from "./AddUserProject";
 export { default as listProjectUser } from "./ListProjectUser";
+export { default as removeUserProject } from "./RemoveUserProject";

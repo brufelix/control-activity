@@ -5,7 +5,7 @@ import { ModelActivity, ModelGroup } from "../../model";
 
 export default (req: Request, res: Response) => {
   let now = new Date();
-  const { groupId, description, delivery, createAt, mainId, position, done } = req.body;
+  const { groupId, description, delivery, createAt, mainId, projectId, position, done } = req.body;
   const newId = crypto.randomBytes(16).toString("hex");
   const id = mainId ? mainId : newId;
   const date = createAt ? createAt : now;
@@ -19,6 +19,7 @@ export default (req: Request, res: Response) => {
       description: description,
       createAt: date,
       delivery: delivery,
+      projectId,
       position,
     });
 

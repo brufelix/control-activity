@@ -25,8 +25,6 @@ export default async (req: Request, res: Response) => {
                         return
                     if (result.length) {
                         projectsArray.push({ _id: result[0]._id, title: result[0].title });
-                    } else {
-                        console.log(result);
                     }
                 });
             }

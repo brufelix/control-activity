@@ -26,6 +26,7 @@ export default async (req: Request, res: Response) => {
       createAt: now,
       delelivery: null,
       position: 0,
+      projectId
     });
 
     await newActivity.save();
@@ -50,9 +51,6 @@ export default async (req: Request, res: Response) => {
     res.status(200).json({ code: 200, message: `Group created` });
 
   } catch (error) {
-    res.status(404).json({
-      code: 404,
-      message: error
-    });
+    res.status(404).json({ code: 501, message: error });
   }
 };

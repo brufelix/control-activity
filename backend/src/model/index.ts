@@ -15,6 +15,10 @@ const schemaActivity = new Schema({
     type: String,
     required: true
   },
+  projectId: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: true

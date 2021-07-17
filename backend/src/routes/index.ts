@@ -19,7 +19,8 @@ import {
   listProject,
   createProject,
   addUserProject,
-  listProjectUser
+  listProjectUser,
+  removeUserProject,
 } from "../controllers";
 
 export default (app: Express) => {
@@ -46,4 +47,5 @@ export default (app: Express) => {
   app.post("/api/project/create", createProject);
   app.post("/api/project/add_user", addUserProject);
   app.post("/api/project/list_user", listProjectUser);
+  app.post("/api/project/remove_user", removeUserProject);
 };
