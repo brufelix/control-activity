@@ -30,7 +30,7 @@ export default async (req: Request, res: Response) => {
             }
             res.status(200).send(projectsArray);
         } else {
-            res.status(200).send({ message: "there_are_no_linked_projects" })
+            res.status(200).send({ code: 200, message: "there_are_no_linked_projects" })
         }
 
     } catch (error) {

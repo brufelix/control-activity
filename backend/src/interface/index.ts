@@ -18,6 +18,7 @@ export interface IProject extends Document {
   title?: String;
   groups?: IGroup[];
   users?: string[];
+  maintainer?: string[];
 };
 
 

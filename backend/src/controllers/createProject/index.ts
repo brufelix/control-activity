@@ -10,17 +10,36 @@ export default async (req: Request, res: Response) => {
 
     await newProject.save();
 
-    ModelUser.updateOne(
-      { username },
-      { $push: { projects: newProject._id } },
-      null,
-      (err, _) => {
+    const user = await ModelUser.findOne(
+      { username: username },
+      null, null,
+      (err, user) => {
         if (err)
-          return
+          res.send({ code: 501, message: "error_getting_user_in_project_create" });
 
-        res.status(200).json({ code: 200, projectId: newProject._id, message: `project_created` });
-      });
+        return user;
+      }
+    );
 
+    if (user) {
+      const { projects } = user;
+
+      projects.push(newProject._id);
+
+      ModelUser.updateOne(
+        { username },
+        { $set: { projects: projects } },
+        null,
+        (err, _) => {
+          if (err)
+            return
+
+          res.status(200).json({ code: 200, projectId: newProject._id, message: `project_created` });
+        }
+      );
+    } else {
+      res.json({ code: 501, message: "error_create_project" })
+    }
   } catch (error) {
     console.log(error);
   }

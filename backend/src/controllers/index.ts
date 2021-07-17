@@ -15,6 +15,6 @@ export { default as registerUser } from "./registerUser";
 export { default as authetication } from "./authetication";
 export { default as listProject } from "./listProject";
 export { default as createProject } from "./createProject";
-export { default as addUserProject } from "./AddUserProject";
+export { default as addUserProject } from "./addUserProject";
 export { default as listProjectUser } from "./projectUsersList";
-export { default as removeUserProject } from "./RemoveUserProject";
+export { default as removeUserProject } from "./removeUserProject";
