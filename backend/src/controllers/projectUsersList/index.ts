@@ -25,13 +25,11 @@ export default async (req: Request, res: Response) => {
         await ModelUser.find(
           { username: users[i] },
           (err, result) => {
-            if (err) {
+            if (err)
               return;
-            }
 
-            if (result.length) {
+            if (result.length)
               projectsArray.push({ _id: result[0]._id, username: result[0].username });
-            }
           });
       };
 
