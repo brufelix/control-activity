@@ -11,14 +11,14 @@ const openNotification = (msg: string, des: string, typeNotification: string) =>
       message: msg,
       description: des,
       placement: "topRight",
-      duration: 3.0,
+      duration: 5.0,
     })
   } else {
     notification['warning']({
       message: msg,
       description: des,
       placement: "topRight",
-      duration: 3.0,
+      duration: 5.0,
     })
   }
 };
@@ -30,6 +30,8 @@ const ModalRegister: React.FC<IModalResgiter> = (props) => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const { visible, onCancel } = props;
+
+  const title = (<h3 style={{ color: "gray", margin: 0 }} >Cadastro</h3>);
 
   const onFinish = () => {
     if (password.trim() === confirmPassword.trim()) {
@@ -55,7 +57,7 @@ const ModalRegister: React.FC<IModalResgiter> = (props) => {
       {
         visible && (
           <Modal
-            title="Cadastro"
+            title={title}
             centered
             visible={visible}
             onCancel={() => onCancel()}

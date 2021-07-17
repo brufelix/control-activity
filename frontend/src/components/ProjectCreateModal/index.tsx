@@ -45,7 +45,11 @@ const ProjectCreateModal: React.FC<IModalCreateProject> = (props) => {
   const title = (<h3 style={{ color: "gray", margin: 0 }} >Crie um projeto</h3>);
 
   const footerButton = [
-    <Button key={1} type="primary" onClick={() => handleClickCreate()} >
+    <Button
+      key={0}
+      type="primary"
+      onClick={() => { description.trim() && handleClickCreate() }}
+    >
       Criar
     </Button>
   ];
@@ -74,7 +78,7 @@ const ProjectCreateModal: React.FC<IModalCreateProject> = (props) => {
                 <Input
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Digite o título do projeto..."
-                  onPressEnter={() => handleClickCreate()}
+                  onPressEnter={() => description.trim() && handleClickCreate()}
                 />
               </Col>
 

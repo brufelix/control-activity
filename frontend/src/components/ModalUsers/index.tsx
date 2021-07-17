@@ -5,10 +5,10 @@ import api from '../../service';
 import { IModalCreateProject } from '../../interfaces';
 import { PlusOutlined } from '@ant-design/icons';
 
-const openNotification = () => {
+const openNotificationError = (description: string, message: string) => {
   notification.warning({
-    message: `Error em adicionar usuário`,
-    description: `Certifique-se de ter inserido o username corretamente.`,
+    message,
+    description,
     placement: "topRight",
     duration: 5.0,
   });
@@ -61,12 +61,38 @@ const ModalUsers: React.FC<IModalCreateProject> = (props) => {
       });
   }
 
+  const handleClickOnClose = (username: string) => {
+    const projectId = localStorage.getItem("@selected_project");
+
+    api.post("/project/remove_user", { username, projectId })
+      .then(({ data }) => {
+        if (data.code === 403 || data.message === "cannot_remove_maintainer") {
+          openNotificationError(
+            `O mantenedor não pode ser removido`,
+            `Error em remover usuário`
+          );
+        }
+      })
+      .then(() => fetchData())
+      .then(() => setInputVisible(false))
+      .then(() => setInputValue(""))
+  }
+
   const handleInputConfirm = () => {
     const projectId = localStorage.getItem("@selected_project");
     api.post("/project/add_user", { username: inputValue, projectId })
       .then(({ data }) => {
-        if (data.code === 501 || data.message === "error_add_user")
-          openNotification()
+        if (data.code === 501 && data.message === "error_add_user") {
+          openNotificationError(
+            `Certifique-se de ter inserido o username corretamente.`,
+            `Error em adicionar usuário`
+          );
+        } else if (data.code === 501 && data.message === "user_already_exists") {
+          openNotificationError(
+            `Usuário já pertece a esse projeto .`,
+            `Error em adicionar usuário`
+          );
+        }
       })
       .then(() => fetchData())
       .then(() => setInputVisible(false))
@@ -93,7 +119,7 @@ const ModalUsers: React.FC<IModalCreateProject> = (props) => {
                 style={{ margin: 5 }}
                 color="blue"
                 closable={true}
-                onClose={(e) => { e.preventDefault(); console.log("Remove") }}
+                onClose={(e) => { e.preventDefault(); handleClickOnClose(item.username) }}
               >
                 {item.username}
               </Tag>
