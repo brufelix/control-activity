@@ -8,8 +8,9 @@ export default async (req: Request, res: Response) => {
 
   try {
 
-    let projects: any = await ModelProject.find(
+    let projects: any = await ModelProject.findOne(
       { _id: projectId },
+      null, null,
       (err, result) => {
         if (err)
           return;
@@ -17,25 +18,24 @@ export default async (req: Request, res: Response) => {
         return result;
       });
 
-    if (projects.length) {
-      const { users } = projects[0];
+    if (projects) {
+      const { users } = projects;
       let projectsArray: IResult[] = [];
 
       for (let i = 0; i < users.length; i++) {
-        await ModelUser.find(
+        await ModelUser.findOne(
           { username: users[i] },
-          (err, result) => {
+          null, null, (err, result) => {
             if (err)
               return;
 
-            if (result.length)
-              projectsArray.push({ _id: result[0]._id, username: result[0].username });
+            projectsArray.push({ _id: result._id, username: result.username });
           });
       };
 
       res.status(200).send(projectsArray);
     } else {
-      res.status(200).send({ message: "there_are_no_linked_users" })
+      res.send({ code: 501, message: "there_are_no_linked_users" })
     }
 
   } catch (error) {
