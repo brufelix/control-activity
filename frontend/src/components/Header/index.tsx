@@ -21,12 +21,21 @@ const Header: React.FC = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a
-          href="/"
-          onClick={() => handleSignout()}
-        >
-          Sair
-        </a>
+        {
+          (user.username && user.username.length > 2)
+            ? (
+              <a
+                href="/"
+                onClick={() => handleSignout()}
+              >
+                Sair
+              </a>
+            )
+            : (
+              <div>*--*</div>
+            )
+
+        }
       </Menu.Item>
     </Menu>
   );

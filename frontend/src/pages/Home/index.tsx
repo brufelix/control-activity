@@ -24,11 +24,15 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    const { user: localUser }: ILocalStorageUser = JSON.parse(localStorage.getItem("@isAutenticate"));
+    const data = JSON.parse(localStorage.getItem("@isAutenticate"));
 
-    api.post("/projects", { username: localUser.username })
-      .then(({ data }) => setNumberProjects(data))
-      .then(() => setShowModal(true));
+    if (data) {
+      const { user: localUser }: ILocalStorageUser = data;
+
+      api.post("/projects", { username: localUser.username })
+        .then(({ data }) => setNumberProjects(data))
+        .then(() => setShowModal(true));
+    }
     // eslint-disable-next-line
   }, []);
 

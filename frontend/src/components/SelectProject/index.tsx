@@ -34,15 +34,18 @@ const SelectProject: React.FC = () => {
   };
 
   useEffect(() => {
-    const { user: localUser }: ILocalStorageUser = JSON.parse(localStorage.getItem("@isAutenticate"));
+    const data = JSON.parse(localStorage.getItem("@isAutenticate"));
+    if (data) {
+      const { user: localUser }: ILocalStorageUser = data;
 
-    api.post("/projects", { username: localUser.username })
-      .then(({ data: projects }) => {
-        updatedCurrentProject(projects);
+      api.post("/projects", { username: localUser.username })
+        .then(({ data: projects }) => {
+          updatedCurrentProject(projects);
 
-        setProjects(projects);
-      })
-      .then(() => setMount(true));
+          setProjects(projects);
+        })
+        .then(() => setMount(true));
+    }
     // eslint-disable-next-line
   }, []);
 
