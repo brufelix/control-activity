@@ -47,11 +47,23 @@ const ProjectCreateModal: React.FC<IModalCreateProject> = (props) => {
   const footerButton = [
     <Button
       key={0}
+      type="default"
+      onClick={() => {
+        localStorage.removeItem("@isAutenticate");
+        localStorage.removeItem("@selected_project");
+        history.push("/");
+        history.go(0);
+      }}
+    >
+      Sair
+    </Button>,
+    <Button
+      key={0}
       type="primary"
       onClick={() => { description.trim() && handleClickCreate() }}
     >
       Criar
-    </Button>
+    </Button>,
   ];
 
   useEffect(() => {
