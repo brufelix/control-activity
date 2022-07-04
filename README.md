@@ -3,14 +3,14 @@ Application for controlling activities
 
 # Para executar o backend precisa ter o mongodb instalado e executando.
 
-Dentro do seu diretório, instale as dependências:
+Dentro dos diretórios, frontend e backend, instale as dependências:
 
 ### `npm i`
 
-Dentro do seu diretório, inicie o backend com:
+Dentro do diretório backend, inicie o backend com:
 
 ### `npm run dev`
 
-Dentro do seu diretório, inicie o frontend com:
+Dentro do diretório frontend, inicie o frontend com:
 
 ### `npm start`
